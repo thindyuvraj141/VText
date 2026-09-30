@@ -7,8 +7,13 @@ WhatsApp jaisi chat app (PWA). Frontend: GitHub Pages, deploy: GitHub Actions, b
    - Build > Firestore Database > Create (production mode).
    - Firestore > Rules me `firestore.rules` ka content paste karke Publish karo.
    - Project settings > Your apps > Web (`</>`) > config copy karke `config.js` me paste karo.
+   - **Auto-delete (backup nahi):** Firestore > **TTL** tab > Create policy: collection group `messages`, field `expireAt`; phir ek aur: collection group `parts`, field `expireAt`. Messages 24 ghante baad khud delete ho jaate hain (app expire hue messages turant chhupa deti hai).
 2. **GitHub**: naya repo banao, saari files upload/push karo (branch `main`).
 3. Repo > Settings > Pages > Source = **GitHub Actions**.
 4. Actions tab me "Deploy VText" chalega. Link: `https://USERNAME.github.io/REPO/`
 5. Firebase > Authentication > Settings > **Authorized domains** me `USERNAME.github.io` add karo.
 6. Phone me link kholo > browser menu > **Add to Home screen** (app ki tarah install hogi).
+
+## Features
+Username se dost add (➕), group (👥), text, photo (auto compress), video (max 3MB ~10-15 sec). Naya account banate waqt username chuno.
+Purane version ke rules/accounts naye rules ke saath kaam nahi karenge, naya signup karo.

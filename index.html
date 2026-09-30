@@ -38,11 +38,12 @@ header img{width:32px}header b{flex:1}
 #bar{display:flex;gap:8px;padding:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom));background:var(--panel)}
 #bar input{margin:0;flex:1;border-radius:22px}
 #bar .btn{width:auto;margin:0;padding:0 20px;border-radius:22px}
-.empty{margin:auto;color:var(--sub);text-align:center;padding:20px}
+.m img,.m video{max-width:100%;border-radius:8px;display:block}.m b{display:block;font-size:12px;color:var(--acc)}.vb{background:none;border:1px solid var(--acc);border-radius:8px;padding:8px 12px;cursor:pointer}#at{cursor:pointer;font-size:22px;align-self:center}.empty{margin:auto;color:var(--sub);text-align:center;padding:20px}
 </style></head><body>
 <div id="auth"><div class="card">
 <img src="logo.svg" alt="VText"><h1>VText</h1>
 <input id="name" placeholder="Aapka naam" style="display:none">
+<input id="un" placeholder="Username (a-z, 0-9, _)" style="display:none" autocapitalize="none">
 <input id="email" type="email" placeholder="Email" autocomplete="email">
 <input id="pass" type="password" placeholder="Password (min 6)" autocomplete="current-password">
 <div id="err"></div>
@@ -50,12 +51,14 @@ header img{width:32px}header b{flex:1}
 <button class="link" id="sw">Naya account banao</button>
 </div></div>
 <div id="app">
-<div id="side"><header><img src="logo.svg" alt=""><b>VText</b><button class="ib" id="out" title="Logout">⎋</button></header>
-<input id="search" placeholder="Contact khojo"><div id="list"></div></div>
+<div id="side"><header><img src="logo.svg" alt=""><b>VText <small id="meun" style="font-weight:400;color:var(--sub)"></small></b>
+<button class="ib" id="addc" title="Username se add karo">➕</button><button class="ib" id="addg" title="Naya group">👥</button><button class="ib" id="out" title="Logout">⎋</button></header>
+<input id="search" placeholder="Chat khojo"><div id="list"></div></div>
 <div id="chat"><header><button class="ib" id="back">←</button><div class="av" id="cav"></div><b id="cname">Chat chuno</b></header>
-<div id="msgs"><div class="empty">Chat shuru karne ke liye kisi contact ko chuno</div></div>
-<form id="bar" style="display:none"><input id="txt" placeholder="Message likho" autocomplete="off"><button class="btn">Bhejo</button></form></div>
+<div id="msgs"><div class="empty">Chat chuno ya ➕ se username daalke naya dost add karo</div></div>
+<form id="bar" style="display:none"><label id="at">📎<input id="file" type="file" accept="image/*,video/*" hidden></label><input id="txt" placeholder="Message likho" autocomplete="off"><button class="btn">Bhejo</button></form></div>
 </div>
+<div id="st" style="position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#000c;color:#fff;padding:6px 14px;border-radius:14px;display:none"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -63,69 +66,121 @@ header img{width:32px}header b{flex:1}
 <script>
 const $=id=>document.getElementById(id);
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-let signup=false,me=null,users=[],cur=null,unsubM=null,unsubU=null;
-$('sw').onclick=()=>{signup=!signup;$('name').style.display=signup?'block':'none';$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Account hai? Login':'Naya account banao';$('err').textContent=''};
-if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){
-  $('err').textContent='Pehle config.js me Firebase config daalo (README dekho).';$('go').disabled=true;
-}else{
-  firebase.initializeApp(FIREBASE_CONFIG);
-  var auth=firebase.auth(),db=firebase.firestore();
-  const msgErr=e=>({'auth/invalid-credential':'Email ya password galat hai','auth/email-already-in-use':'Ye email pehle se registered hai','auth/weak-password':'Password kam se kam 6 akshar ka rakho','auth/invalid-email':'Email sahi nahi hai'}[e.code]||e.message);
-  $('go').onclick=async()=>{
-    const email=$('email').value.trim(),pass=$('pass').value,name=$('name').value.trim();
-    $('err').textContent='';
-    if(!email||!pass||(signup&&!name)){$('err').textContent='Saari details bharo';return}
-    $('go').disabled=true;
-    try{
-      if(signup){const c=await auth.createUserWithEmailAndPassword(email,pass);
-        await c.user.updateProfile({displayName:name});
-        await db.collection('users').doc(c.user.uid).set({name},{merge:true});me.name=name;}
-      else await auth.signInWithEmailAndPassword(email,pass);
-    }catch(e){$('err').textContent=msgErr(e)}
-    $('go').disabled=false;
-  };
-  $('out').onclick=()=>auth.signOut();
-  auth.onAuthStateChanged(async u=>{
-    if(unsubU){unsubU();unsubU=null}
-    if(unsubM){unsubM();unsubM=null}
-    cur=null;
-    if(!u){me=null;$('app').style.display='none';$('auth').style.display='flex';return}
-    me={uid:u.uid,name:u.displayName||u.email.split('@')[0]};
-    $('auth').style.display='none';$('app').style.display='flex';$('app').classList.remove('open');
-    try{await db.collection('users').doc(u.uid).set({name:me.name},{merge:true})}catch(e){}
-    unsubU=db.collection('users').onSnapshot(s=>{users=s.docs.map(d=>({uid:d.id,name:d.data().name||'User'})).filter(x=>x.uid!==me.uid);renderList()},e=>{$('list').innerHTML='<div class="empty">Contacts load nahi hue. Firestore rules check karo.</div>'});
+let signup=false,me=null,chats=[],cur=null,unsubM,unsubC,unsubP;const vids=new Map();
+const TTL=864e5,PART=700000,MAXV=3*1024*1024;
+$('sw').onclick=()=>{signup=!signup;['name','un'].forEach(i=>$(i).style.display=signup?'block':'none');$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Account hai? Login':'Naya account banao';$('err').textContent=''};
+const st=t=>{$('st').textContent=t;$('st').style.display=t?'block':'none'};
+if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){$('err').textContent='Pehle config.js me Firebase config daalo (README dekho).';$('go').disabled=true}
+else{
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth=firebase.auth(),db=firebase.firestore(),TS=firebase.firestore.Timestamp;
+const E={'auth/invalid-credential':'Email ya password galat hai','auth/email-already-in-use':'Ye email pehle se registered hai','auth/weak-password':'Password kam se kam 6 akshar ka rakho','auth/invalid-email':'Email sahi nahi hai'};
+$('go').onclick=async()=>{
+  const email=$('email').value.trim(),pass=$('pass').value,name=$('name').value.trim(),un=$('un').value.trim().toLowerCase();
+  $('err').textContent='';
+  if(!email||!pass||(signup&&!name)){$('err').textContent='Saari details bharo';return}
+  if(signup&&!/^[a-z0-9_]{3,20}$/.test(un)){$('err').textContent='Username 3-20 akshar: a-z, 0-9, _';return}
+  $('go').disabled=true;
+  try{
+    if(signup){
+      const c=await auth.createUserWithEmailAndPassword(email,pass);
+      try{const b=db.batch();b.set(db.doc('usernames/'+un),{uid:c.user.uid});b.set(db.doc('users/'+c.user.uid),{name,username:un});await b.commit()}
+      catch(e){await c.user.delete();throw{message:'Ye username pehle se kisi ne le rakha hai, dusra chuno'}}
+    }else await auth.signInWithEmailAndPassword(email,pass);
+  }catch(e){$('err').textContent=E[e.code]||e.message}
+  $('go').disabled=false;
+};
+$('out').onclick=()=>auth.signOut();
+function stop(){[unsubM,unsubC,unsubP].forEach(f=>f&&f());unsubM=unsubC=unsubP=null;cur=null;chats=[];vids.clear()}
+auth.onAuthStateChanged(u=>{
+  stop();me=null;
+  if(!u){$('app').style.display='none';$('auth').style.display='flex';return}
+  unsubP=db.doc('users/'+u.uid).onSnapshot(s=>{
+    if(!s.exists||me)return;me={uid:u.uid,...s.data()};
+    $('auth').style.display='none';$('app').style.display='flex';$('app').classList.remove('open');$('meun').textContent='@'+me.username;
+    unsubC=db.collection('chats').where('members','array-contains',me.uid).onSnapshot(q=>{chats=q.docs.map(d=>({id:d.id,...d.data()}));renderList()},()=>{$('list').innerHTML='<div class="empty">Chats load nahi hue. Firestore rules check karo.</div>'});
   });
-  function renderList(){
-    const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';
-    const f=users.filter(x=>x.name.toLowerCase().includes(q));
-    if(!f.length){l.innerHTML='<div class="empty">Koi contact nahi mila. Dost ko VText join karne bolo!</div>';return}
-    f.forEach(x=>{const d=document.createElement('div');d.className='u';
-      d.innerHTML='<div class="av"></div><b></b>';d.firstChild.textContent=x.name[0].toUpperCase();d.lastChild.textContent=x.name;
-      d.onclick=()=>openChat(x);l.appendChild(d)});
-  }
-  $('search').oninput=renderList;
-  function openChat(o){
-    cur=o;if(unsubM)unsubM();
-    $('cname').textContent=o.name;$('cav').textContent=o.name[0].toUpperCase();
-    $('bar').style.display='flex';$('app').classList.add('open');$('msgs').innerHTML='';
-    const id=[me.uid,o.uid].sort().join('_');
-    unsubM=db.collection('chats').doc(id).collection('messages').orderBy('ts').limitToLast(200).onSnapshot(s=>{
-      const box=$('msgs');box.innerHTML='';
-      if(s.empty)box.innerHTML='<div class="empty">Abhi koi message nahi. Hi bolo 👋</div>';
-      s.docs.forEach(d=>{const m=d.data({serverTimestamps:'estimate'});
-        const e=document.createElement('div');e.className='m'+(m.from===me.uid?' me':'');
-        e.textContent=m.text;const t=document.createElement('small');
-        t.textContent=m.ts?m.ts.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
-        e.appendChild(t);box.appendChild(e)});
-      box.scrollTop=box.scrollHeight;
-    },e=>{$('msgs').innerHTML='<div class="empty">Messages load nahi hue. Firestore rules check karo.</div>'});
-  }
-  $('back').onclick=()=>{$('app').classList.remove('open');if(unsubM){unsubM();unsubM=null}cur=null};
-  $('bar').onsubmit=async e=>{
-    e.preventDefault();const text=$('txt').value.trim();if(!text||!cur)return;$('txt').value='';
-    const id=[me.uid,cur.uid].sort().join('_');
-    try{await db.collection('chats').doc(id).collection('messages').add({from:me.uid,text:text.slice(0,2000),ts:firebase.firestore.FieldValue.serverTimestamp()})}
-    catch(err){alert('Message nahi gaya: '+err.message)}
-  };
+});
+const title=c=>c.type==='group'?c.name:(c.names[c.members.find(x=>x!==me.uid)]||'User');
+function renderList(){
+  const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';
+  const f=chats.filter(c=>title(c).toLowerCase().includes(q)).sort((a,b)=>title(a).localeCompare(title(b)));
+  if(!f.length){l.innerHTML='<div class="empty">Koi chat nahi. ➕ se username daalke dost add karo ya 👥 se group banao.</div>';return}
+  f.forEach(c=>{const d=document.createElement('div');d.className='u';d.innerHTML='<div class="av"></div><b></b>';
+    d.firstChild.textContent=(c.type==='group'?'👥':title(c)[0].toUpperCase());d.lastChild.textContent=title(c);d.onclick=()=>openChat(c);l.appendChild(d)});
+}
+$('search').oninput=renderList;
+const clean=x=>x.trim().toLowerCase().replace(/^@/,'');
+async function find(un){const u=await db.doc('usernames/'+un).get();if(!u.exists)throw Error('@'+un+' nahi mila');const uid=u.data().uid;const o=(await db.doc('users/'+uid).get()).data();return{uid,name:o.name}}
+$('addc').onclick=async()=>{
+  const un=clean(prompt('Dost ka username likho')||'');if(!un)return;
+  try{const o=await find(un);if(o.uid===me.uid)return alert('Ye aapka apna username hai');
+    const id=[me.uid,o.uid].sort().join('_'),ex=chats.find(c=>c.id===id);if(ex)return openChat(ex);
+    const c={type:'dm',members:[me.uid,o.uid],names:{[me.uid]:me.name,[o.uid]:o.name}};await db.doc('chats/'+id).set(c);openChat({id,...c});
+  }catch(e){alert(e.message)}
+};
+$('addg').onclick=async()=>{
+  const name=(prompt('Group ka naam')||'').trim();if(!name)return;
+  const list=(prompt('Members ke username, comma se alag (apna nahi likhna)')||'').split(',').map(clean).filter(Boolean);
+  try{const members=[me.uid],names={[me.uid]:me.name};
+    for(const un of new Set(list)){const o=await find(un);if(!members.includes(o.uid)){members.push(o.uid);names[o.uid]=o.name}}
+    if(members.length<2)return alert('Kam se kam 1 member chahiye');
+    const ref=db.collection('chats').doc(),c={type:'group',name:name.slice(0,40),members,names};await ref.set(c);openChat({id:ref.id,...c});
+  }catch(e){alert(e.message)}
+};
+const col=()=>db.collection('chats/'+cur.id+'/messages');
+function openChat(c){
+  cur=c;if(unsubM)unsubM();
+  $('cname').textContent=title(c);$('cav').textContent=c.type==='group'?'👥':title(c)[0].toUpperCase();
+  $('bar').style.display='flex';$('app').classList.add('open');$('msgs').innerHTML='';
+  unsubM=col().orderBy('ts').limitToLast(50).onSnapshot(s=>{
+    const box=$('msgs');box.innerHTML='';let n=0;
+    s.docs.forEach(d=>{const m=d.data({serverTimestamps:'estimate'});if(m.expireAt&&m.expireAt.toMillis()<Date.now())return;n++;
+      const e=document.createElement('div');e.className='m'+(m.from===me.uid?' me':'');
+      if(c.type==='group'&&m.from!==me.uid){const b=document.createElement('b');b.textContent=m.fromName||'User';e.appendChild(b)}
+      if(m.type==='img'){const i=document.createElement('img');i.src=m.data;e.appendChild(i)}
+      else if(m.type==='vid'){
+        if(vids.has(d.id))e.appendChild(vplayer(vids.get(d.id)));
+        else{const b=document.createElement('button');b.className='vb';b.textContent='▶ Video dekho';b.onclick=()=>loadVid(d.id,m,b);e.appendChild(b)}
+      }else e.appendChild(document.createTextNode(m.text||''));
+      const t=document.createElement('small');t.textContent=m.ts?m.ts.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';e.appendChild(t);box.appendChild(e)});
+    if(!n)box.innerHTML='<div class="empty">Abhi koi message nahi. Hi bolo 👋<br><small>Messages 24 ghante baad apne aap delete ho jaate hain.</small></div>';
+    box.scrollTop=box.scrollHeight;
+  },()=>{$('msgs').innerHTML='<div class="empty">Messages load nahi hue. Firestore rules check karo.</div>'});
+}
+function vplayer(u){const v=document.createElement('video');v.src=u;v.controls=true;v.playsInline=true;return v}
+async function loadVid(id,m,b){
+  b.textContent='Load ho raha hai…';
+  try{const s=await db.collection(`chats/${cur.id}/messages/${id}/parts`).orderBy('i').get();
+    if(s.size!==m.parts)throw Error('Video adhoora hai ya expire ho gaya');
+    const arr=s.docs.map(x=>Uint8Array.from(atob(x.data().d),c=>c.charCodeAt(0)));
+    vids.set(id,URL.createObjectURL(new Blob(arr,{type:m.mime||'video/mp4'})));b.replaceWith(vplayer(vids.get(id)));
+  }catch(e){b.textContent='Video load nahi hua';}
+}
+$('back').onclick=()=>{$('app').classList.remove('open');if(unsubM){unsubM();unsubM=null}cur=null};
+const base=()=>({from:me.uid,fromName:me.name,ts:firebase.firestore.FieldValue.serverTimestamp(),expireAt:TS.fromMillis(Date.now()+TTL)});
+$('bar').onsubmit=async e=>{
+  e.preventDefault();const text=$('txt').value.trim();if(!text||!cur)return;$('txt').value='';
+  try{await col().add({...base(),type:'text',text:text.slice(0,2000)})}catch(err){alert('Message nahi gaya: '+err.message)}
+};
+function compress(f){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{
+  let k=Math.min(1,1000/Math.max(im.width,im.height)),w=im.width*k,h=im.height*k,q=.75,o;const cv=document.createElement('canvas');
+  for(let t=0;t<6;t++){cv.width=Math.round(w);cv.height=Math.round(h);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);o=cv.toDataURL('image/jpeg',q);if(o.length<800000)break;w*=.8;h*=.8;q-=.08}
+  o.length<900000?res(o):rej(Error('Photo bahut badi hai'))};im.onerror=()=>rej(Error('Photo padh nahi paye'));im.src=URL.createObjectURL(f)})}
+$('file').onchange=async e=>{
+  const f=e.target.files[0];e.target.value='';if(!f||!cur)return;
+  try{
+    if(f.type.startsWith('image/')){st('Photo bhej rahe hain…');await col().add({...base(),type:'img',data:await compress(f)})}
+    else if(f.type.startsWith('video/')){
+      if(f.size>MAXV)return alert('Video 3MB se chhota rakho (lagbhag 10-15 second)');
+      st('Video bhej rahe hain…');
+      const url=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});
+      const b64=url.split(',')[1],n=Math.ceil(b64.length/PART),ref=col().doc(),b=base();
+      for(let i=0;i<n;i++)await ref.collection('parts').doc('p'+i).set({i,d:b64.slice(i*PART,(i+1)*PART),expireAt:b.expireAt});
+      await ref.set({...b,type:'vid',parts:n,mime:f.type||'video/mp4'});
+    }else alert('Sirf photo ya video bhej sakte hain');
+  }catch(err){alert('Nahi gaya: '+err.message)}
+  st('');
+};
 }
 </script></body></html>
