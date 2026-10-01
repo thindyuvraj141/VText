@@ -17,3 +17,9 @@ WhatsApp jaisi chat app (PWA). Frontend: GitHub Pages, deploy: GitHub Actions, b
 ## Features
 Username se dost add (➕), group (👥), text, photo (auto compress), video (max 3MB ~10-15 sec). Naya account banate waqt username chuno.
 Purane version ke rules/accounts naye rules ke saath kaam nahi karenge, naya signup karo.
+
+## APK (Capacitor)
+1. Repo me `package.json`, `capacitor.config.json`, `scripts/`, `assets/` aur `.github/workflows/android.yml` bhi hone chahiye.
+2. Actions tab > **Build APK** > **Run workflow**.
+3. 5-10 min baad Releases (repo ka right side) me `VText.apk` milegi, ya run page ke Artifacts me.
+4. APK site `thindyuvraj141.github.io/VText` se load hoti hai, to `index.html` badalne par APK dobara banane ki zaroorat nahi.

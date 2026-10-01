@@ -1,0 +1,8 @@
+{
+  "appId": "com.vtext.app",
+  "appName": "VText",
+  "webDir": "www",
+  "server": {
+    "url": "https://thindyuvraj141.github.io/VText/"
+  }
+}

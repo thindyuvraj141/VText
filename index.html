@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6d28d9">
 <title>VText</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <link rel="icon" href="logo.svg"><link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#f0f2f5;--panel:#fff;--txt:#1b1530;--sub:#6b7280;--me:#e4d9ff;--them:#fff;--acc:#7c3aed;--line:#e9edef}
@@ -26,13 +27,13 @@ input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);b
 .top{display:flex;align-items:center;gap:10px;padding:12px;padding-top:calc(12px + env(safe-area-inset-top));background:var(--top,#0b7a62);color:#fff}
 .top b{font-size:1.15rem}.top .g{flex:1;min-width:0}.top small{display:block;opacity:.8;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ib{background:none;border:0;color:inherit;font-size:1.3rem;cursor:pointer;padding:4px 8px}
-#search{margin:8px 12px;width:auto;border-radius:24px;background:var(--bg)}
+#sw2{position:relative;margin:8px 14px;color:var(--sub)}#sw2 svg{position:absolute;left:16px;top:50%;margin-top:-13px}#search{margin:0;width:100%;height:50px;padding-left:52px;border:0;border-radius:26px;background:var(--bg);font-size:1.05rem}
 #list{flex:1;overflow:auto}
 .u{display:flex;gap:12px;align-items:center;padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--line)}
 .u:hover{background:var(--bg)}.u .t{flex:1;min-width:0}
 .u .t div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--sub);font-size:.88rem}
 .u .r{text-align:right;font-size:.72rem;color:var(--sub)}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--acc);margin-top:6px}
-.av{width:44px;height:44px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.av{width:52px;height:52px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
 .av.big{width:84px;height:84px;font-size:2rem;margin:10px auto}
 #fab{position:absolute;right:18px;bottom:calc(76px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:18px;border:0;background:var(--acc);color:#fff;font-size:1.5rem;box-shadow:0 4px 14px #0004;cursor:pointer}
 #msgs{flex:1;overflow:auto;padding:10px 16px;display:flex;flex-direction:column;gap:4px;background:#efeae2 radial-gradient(#0000000d 1.2px,transparent 1.2px) 0 0/22px 22px}
@@ -44,7 +45,7 @@ input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);b
 .q{border-left:3px solid var(--acc);background:#0001;padding:3px 6px;border-radius:4px;font-size:.8rem;margin-bottom:3px;color:var(--sub)}
 .dt{align-self:center;background:var(--panel);color:var(--sub);font-size:.72rem;padding:3px 10px;border-radius:10px;margin:6px 0}
 .vb{background:none;border:1px solid var(--acc);border-radius:8px;padding:8px 12px;cursor:pointer}
-.rx{font-size:.85rem;margin-top:2px}#chips{display:flex;gap:8px;padding:4px 12px 8px}#chips span{padding:6px 14px;border-radius:16px;background:var(--bg);font-size:.85rem;cursor:pointer}#chips .on{background:var(--acc);color:#fff}#sav{cursor:pointer}#nav{display:flex;border-top:1px solid var(--line);background:var(--panel);padding-bottom:env(safe-area-inset-bottom)}#nav button{flex:1;background:none;border:0;padding:8px 0;font-size:1.25rem;cursor:pointer;color:var(--sub)}#nav small{display:block;font-size:.68rem}#nav .on{color:var(--acc);font-weight:700}.pr{display:flex;gap:12px;align-items:center}.pr .av.big{margin:0}.sc h4{margin:20px 0 4px;color:var(--acc);font-size:.8rem;text-transform:uppercase}.row{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:14px 2px;cursor:pointer}.red{color:#e11d48}.dot{width:12px;height:12px}.empty{margin:auto;color:var(--sub);text-align:center;padding:20px}
+.rx{font-size:.85rem;margin-top:2px}#chips{display:none}#chips span{padding:6px 14px;border-radius:16px;background:var(--bg);font-size:.85rem;cursor:pointer}#chips .on{background:var(--acc);color:#fff}#sav{cursor:pointer}#nav{display:flex;background:var(--panel);padding:6px 0 calc(6px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}#nav button{flex:1;background:none;border:0;cursor:pointer;color:var(--txt)}#nav i{display:flex;width:64px;height:32px;margin:0 auto 3px;border-radius:16px;align-items:center;justify-content:center}#nav small{display:block;font-size:.78rem}#nav .on small{font-weight:800}#nav .on i{background:var(--pill)}.top.w{background:var(--panel);color:var(--txt)}.top.w b.g{font-family:Pacifico,'Brush Script MT',cursive;font-size:1.9rem;font-weight:400;background:linear-gradient(90deg,var(--acc),#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}.card h1{font-family:Pacifico,cursive;font-weight:400;color:var(--acc)}.top.w #stt{font-size:1.3rem;color:var(--txt)}.ps{display:none}.hero{text-align:center;padding:14px 0 20px;background:#f4f1ea radial-gradient(#00000012 1.5px,transparent 1.5px) 0 0/20px 20px;border-radius:0 0 28px 28px;margin:-14px -14px 10px}.dk .hero{background-color:#0b141a}.hero .av.big{width:140px;height:140px;font-size:3rem;margin:10px auto;border:4px solid var(--panel)}#sname{font-size:1.9rem;margin-top:6px}.rw{display:flex;gap:22px;align-items:center;padding:16px 8px;cursor:pointer;color:var(--sub)}.rw div{color:var(--txt);font-size:1.1rem}.rw small{display:block;color:var(--sub);font-size:.92rem}.pr{display:flex;gap:12px;align-items:center}.pr .av.big{margin:0}.sc h4{margin:20px 0 4px;color:var(--acc);font-size:.8rem;text-transform:uppercase}.row{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:14px 2px;cursor:pointer}.red{color:#e11d48}.dot{width:12px;height:12px}.empty{margin:auto;color:var(--sub);text-align:center;padding:20px}
 #bar{display:flex;gap:8px;padding:8px;padding-bottom:calc(8px + env(safe-area-inset-bottom));background:var(--bg);align-items:center}
 .in{flex:1;display:flex;align-items:center;background:var(--panel);border-radius:24px;padding:0 8px}
 .in input{border:0;margin:0;background:none;padding:12px 4px}.in button,#at{background:none;border:0;font-size:1.3rem;cursor:pointer}
@@ -55,7 +56,7 @@ input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);b
 #sheet,#vw{position:fixed;inset:0;background:#0007;display:none;z-index:30;align-items:flex-end;justify-content:center}
 #vw{align-items:center;background:#000e}#vw img{max-width:100%;max-height:100%}
 .sb{background:var(--panel);width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
-.sr{padding:15px 20px;cursor:pointer}.sr:active{background:var(--bg)}.ro{cursor:default;color:var(--sub)}
+.sr{padding:15px 20px;cursor:pointer}.sr:active{background:var(--bg)}.ro{cursor:default;color:var(--sub)}#sheet.pop{align-items:flex-start;justify-content:flex-end;background:transparent}#sheet.pop .sb{width:auto;min-width:240px;margin:56px 10px 0;border-radius:16px;box-shadow:0 4px 24px #0005;padding:6px 0}#sheet.pop .sr{padding:15px 22px;font-size:1.05rem}
 #set{position:fixed;inset:0;background:var(--panel);z-index:20;display:none;flex-direction:column}
 .sc{flex:1;overflow:auto;padding:14px;max-width:520px;width:100%;margin:0 auto}.sc label{display:block;margin-top:12px;font-size:.85rem;color:var(--sub)}
 .sc label input[type=checkbox]{width:auto;margin-right:8px}.sub{color:var(--sub);font-size:.85rem;text-align:center}.out{background:#e11d48}
@@ -72,27 +73,23 @@ input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);b
 <button class="link" id="sw">Naya account banao</button><br><button class="link" id="fp" style="margin-top:0">Password bhool gaye?</button>
 </div></div>
 <div id="app">
-<div id="side"><div class="top"><b class="g">VText</b><button class="ib" id="sb" style="display:none">🔍</button><button class="ib" id="mm">⋮</button></div>
-<input id="search" placeholder="Search"><div id="chips"><span class="on" data-f="all">Sab</span><span data-f="un">Unread</span><span data-f="gr">Groups</span></div><div id="list"></div><button id="fab">💬</button><div id="nav"><button class="on" data-n="chats">💬<small>Chats</small></button><button data-n="star">⭐<small>Starred</small></button><button data-n="arc">🗄<small>Archived</small></button><button data-n="set">⚙️<small>Settings</small></button></div></div>
+<div id="side"><div class="top w"><img src="logo.svg" alt="" style="width:34px;height:34px;border-radius:9px"><b class="g">VText</b><button class="ib" id="sb" style="display:none">🔍</button><button class="ib" id="cam"></button><button class="ib" id="mm">⋮</button><input id="cf" type="file" accept="image/*" capture="environment" hidden></div>
+<div id="sw2"><input id="search" placeholder="Search"></div><div id="chips"><span class="on" data-f="all">Sab</span><span data-f="un">Unread</span><span data-f="gr">Groups</span></div><div id="list"></div><button id="fab"></button><div id="nav"></div></div>
 <div id="chat"><div class="top"><button class="ib" id="back">←</button><div class="av" id="cav"></div><div class="g" id="hd" style="cursor:pointer"><b id="cname"></b><small id="cst"></small></div><button class="ib" id="cm">⋮</button></div>
 <div id="msgs"></div><div id="rp"></div><div id="emo"></div>
 <div id="bar"><div class="in"><button id="eb">😊</button><input id="txt" placeholder="Message" autocomplete="off"><button id="at" type="button">📎</button><input id="file" type="file" hidden></div><button class="rb" id="snd">🎤</button></div></div>
 </div>
-<div id="set"><div class="top"><button class="ib" id="sx">←</button><b>Settings</b></div><div class="sc">
-<div class="pr"><div class="av big" id="sav"></div><div style="flex:1;min-width:0"><input id="sn" maxlength="30" placeholder="Name"><input id="sa" maxlength="80" placeholder="About"><div class="sub" id="su"></div></div></div>
-<button class="btn" id="ss">Save profile</button>
-<h4>Account</h4><button class="row" id="pw">Change password (email link)</button><button class="row red" id="da">Delete account</button>
-<h4>Privacy</h4><label><input type="checkbox" id="hs">Hide last seen &amp; online</label><label><input type="checkbox" id="rr">Read receipts</label><button class="row" id="bk">Blocked contacts</button>
-<h4>Chats</h4><label>Theme</label><select id="th"><option value="auto">System default</option><option value="light">Light</option><option value="dark">Dark</option></select>
-<label>Theme colour</label><select id="tc"><option value="g">Green</option><option value="v">Violet</option><option value="b">Blue</option></select>
-<label>Wallpaper</label><select id="wp"><option value="">Default</option><option value="#e8f5e9">Green</option><option value="#e3f2fd">Blue</option><option value="#fff3e0">Orange</option><option value="#1a1a2e">Dark</option></select>
-<label>Font size</label><select id="fs"><option value="14">Small</option><option value="16">Medium</option><option value="18">Large</option></select>
-<label><input type="checkbox" id="en">Enter is send</label>
-<h4>Notifications</h4><label><input type="checkbox" id="nt">Show notifications (app open)</label><label><input type="checkbox" id="sd">Message sounds</label>
-<h4>Disappearing messages</h4><label>Default timer</label><select id="ex"><option value="3600000">1 hour</option><option value="86400000">24 hours</option><option value="604800000">7 days</option></select>
-<h4>Help</h4><p class="sub">VText · no backup, messages delete themselves</p>
-<button class="btn out" id="lo">Log out</button>
-</div></div>
+<div id="set"><div class="top w"><button class="ib" id="sx">←</button><b id="stt" style="flex:1">Settings</b><button class="ib" id="spe">✎</button></div>
+<div class="sc"><div id="sm"><div class="hero"><div class="av big" id="sav"></div><div id="sname"></div><div class="sub" id="su"></div></div><div id="rows"></div></div>
+<div class="ps" id="p-prof"><label>Name</label><input id="sn" maxlength="30"><label>About</label><input id="sa" maxlength="80" placeholder="About"><button class="btn" id="ss">Save</button></div>
+<div class="ps" id="p-acc"><button class="row" id="pw">Change password (email link)</button><button class="row red" id="da">Delete account</button></div>
+<div class="ps" id="p-priv"><label><input type="checkbox" id="hs">Hide last seen &amp; online</label><label><input type="checkbox" id="rr">Read receipts</label><button class="row" id="bk">Blocked accounts</button><label>Disappearing messages (default timer)</label><select id="ex"><option value="3600000">1 hour</option><option value="86400000">24 hours</option><option value="604800000">7 days</option></select></div>
+<div class="ps" id="p-chats"><label>Wallpaper</label><select id="wp"><option value="">Default</option><option value="#e8f5e9">Green</option><option value="#e3f2fd">Blue</option><option value="#fff3e0">Orange</option><option value="#1a1a2e">Dark</option></select><label><input type="checkbox" id="en">Enter is send</label></div>
+<div class="ps" id="p-app"><label>App theme</label><select id="th"><option value="auto">System default</option><option value="light">Light</option><option value="dark">Dark</option></select><label>Theme colour</label><select id="tc"><option value="g">Green</option><option value="v">Violet</option><option value="b">Blue</option></select></div>
+<div class="ps" id="p-notif"><label><input type="checkbox" id="nt">Show notifications (app open)</label><label><input type="checkbox" id="sd">Message sounds</label></div>
+<div class="ps" id="p-acs"><label>Font size</label><select id="fs"><option value="14">Small</option><option value="16">Medium</option><option value="18">Large</option></select></div>
+<div class="ps" id="p-help"><p class="sub">VText · no backup, messages delete themselves.<br>Phone number ki zaroorat nahi, sirf email aur username.</p></div>
+</div><button id="lo" style="display:none"></button></div>
 <input id="pf" type="file" accept="image/*" hidden><div id="sheet"></div><div id="vw"><img alt=""></div><div id="st"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -113,17 +110,21 @@ const $=id=>document.getElementById(id);
 window.onerror=m=>{$('err').textContent='Error: '+m;$('go').disabled=false};
 const get=(k,d)=>{try{return localStorage.getItem('vt_'+k)||d}catch(e){return d}},put=(k,v)=>{try{localStorage.setItem('vt_'+k,v)}catch(e){}};
 const PAL={g:['#0b7a62','#0fa57f','#d6f5e3','#0b5d49'],v:['#6d28d9','#7c3aed','#e4d9ff','#4c2a85'],b:['#1565c0','#2196f3','#d6e8fb','#0d47a1']};
-function look(){const t=get('theme','auto'),d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches),p=PAL[get('tc','g')]||PAL.g,r=document.documentElement,y=r.style;r.classList.toggle('dk',d);y.fontSize=get('fs','16')+'px';y.setProperty('--top',d?'#1f2c34':p[0]);y.setProperty('--acc',p[1]);y.setProperty('--me',d?p[3]:p[2]);$('msgs').style.backgroundColor=get('wp','')}look();
+function look(){const t=get('theme','auto'),d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches),p=PAL[get('tc','g')]||PAL.g,r=document.documentElement,y=r.style;r.classList.toggle('dk',d);y.fontSize=get('fs','16')+'px';y.setProperty('--top',d?'#1f2c34':p[0]);y.setProperty('--acc',p[1]);y.setProperty('--me',d?p[3]:p[2]);y.setProperty('--pill',d?p[3]:p[2]);$('msgs').style.backgroundColor=get('wp','')}look();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-let pt='me',fl='all',showArc=false,lsg='',qs='',first=true,signup=false,me=null,chats=[],cur=null,peer=null,docs=[],reply=null,unsubM,unsubC,unsubP,unsubS,rec=null,chunks=[],rt;const vids=new Map(),PART=700000,MAXV=3*1024*1024;
+let tab='chats',pt='me',fl='all',showArc=false,lsg='',qs='',first=true,signup=false,me=null,chats=[],cur=null,peer=null,docs=[],reply=null,unsubM,unsubC,unsubP,unsubS,rec=null,chunks=[],rt;const vids=new Map(),PART=700000,MAXV=3*1024*1024;
 $('sw').onclick=()=>{signup=!signup;['name','un'].forEach(i=>$(i).style.display=signup?'block':'none');$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Account hai? Login':'Naya account banao';$('err').textContent=''};
 const st=t=>{$('st').textContent=t;$('st').style.display=t?'block':'none'};
 const hm=d=>d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),M=t=>t&&t.toMillis?t.toMillis():0;
 const day=d=>{const n=new Date(),y=new Date(Date.now()-864e5);return d.toDateString()===n.toDateString()?'Aaj':d.toDateString()===y.toDateString()?'Kal':d.toLocaleDateString()};
 const col=n=>'hsl('+(Math.abs([...n].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%360)+',55%,42%)';
 const av=(el,n,g,p)=>{el.style.background=col(n);el.textContent=g?'👥':n[0].toUpperCase();if(p&&/^data:image\/[a-z]+;base64,[A-Za-z0-9+\/=]+$/.test(p)){el.style.background='center/cover url('+p+')';el.textContent=''}};
-function sheet(rows){const s=$('sheet');s.innerHTML='';const b=document.createElement('div');b.className='sb';rows.forEach(r=>{const d=document.createElement('div');if(Array.isArray(r[0])){d.style.cssText='display:flex;justify-content:space-around;font-size:1.7rem;padding:12px 8px';r[0].forEach(em=>{const sp=document.createElement('span');sp.textContent=em;sp.style.cursor='pointer';sp.onclick=()=>{s.style.display='none';r[1](em)};d.appendChild(sp)});b.appendChild(d);return}d.className='sr'+(r[1]?'':' ro');d.textContent=r[0];if(r[1])d.onclick=()=>{s.style.display='none';r[1]()};b.appendChild(d)});s.appendChild(b);s.style.display='flex';s.onclick=e=>{if(e.target===s)s.style.display='none'}}
+function sheet(rows,cls){const s=$('sheet');s.className=cls||'';s.innerHTML='';const b=document.createElement('div');b.className='sb';rows.forEach(r=>{const d=document.createElement('div');if(Array.isArray(r[0])){d.style.cssText='display:flex;justify-content:space-around;font-size:1.7rem;padding:12px 8px';r[0].forEach(em=>{const sp=document.createElement('span');sp.textContent=em;sp.style.cursor='pointer';sp.onclick=()=>{s.style.display='none';r[1](em)};d.appendChild(sp)});b.appendChild(d);return}d.className='sr'+(r[1]?'':' ro');d.textContent=r[0];if(r[1])d.onclick=()=>{s.style.display='none';r[1]()};b.appendChild(d)});s.appendChild(b);s.style.display='flex';s.onclick=e=>{if(e.target===s)s.style.display='none'}}
 $('vw').onclick=()=>$('vw').style.display='none';
+const IC={search:'<circle cx="11" cy="11" r="7"/><path d="M16 16l5 5"/>',chat:'<path d="M4 5h16v11H10l-5 4v-4H4z"/>',plus:'<path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M12 8v5M9.5 10.5h5"/>',upd:'<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="4 3"/>',com:'<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-4 3-6 6-6s6 2 6 6M15 15c3 0 6 1 6 5"/>',call:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/>',key:'<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M15 12v2"/>',lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',palette:'<path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3c0-5-4-11-8-11z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/>',bell:'<path d="M6 17v-6a6 6 0 0112 0v6l2 2H4z"/><path d="M10 21h4"/>',access:'<circle cx="12" cy="5" r="2"/><path d="M5 9l7 1.5L19 9M12 10.5V15l-3 6M12 15l3 6"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-1 .8-1.5 1.2-1.5 2.5M12 17v.5"/>',out:'<path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/>',cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'};
+const ic=n=>'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+IC[n]+'</svg>';
+$('nav').innerHTML=[['chats','chat','Chats'],['upd','upd','Updates'],['com','com','Communities'],['calls','call','Calls']].map((a,i)=>'<button data-n="'+a[0]+'"'+(i?'':' class="on"')+'><i>'+ic(a[1])+'</i><small>'+a[2]+'</small></button>').join('');
+$('fab').innerHTML=ic('plus');$('cam').innerHTML=ic('cam');$('sw2').insertAdjacentHTML('afterbegin',ic('search'));
 const stars=()=>{try{return JSON.parse(get('stars','[]'))}catch(e){return []}};
 const lset=k=>{try{return new Set(JSON.parse(get(k,'[]')))}catch(e){return new Set()}},tog=(k,v)=>{const q=lset(k);q.has(v)?q.delete(v):q.add(v);put(k,JSON.stringify([...q]));return q.has(v)};
 function linkify(e,t){t.split(/(https?:\/\/\S+)/g).forEach(p=>{if(/^https?:\/\//.test(p)){const a=document.createElement('a');a.href=p;a.target='_blank';a.rel='noopener';a.textContent=p;a.style.color='var(--acc)';a.onclick=ev=>ev.stopPropagation();e.appendChild(a)}else e.appendChild(document.createTextNode(p))})}
@@ -172,7 +173,7 @@ function start(){
   },()=>{$('list').innerHTML='<div class="empty">Chats load nahi hue. Firestore rules check karo.</div>'});
 }
 function renderList(){
-  const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';
+  const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';if(tab!=='chats'){l.innerHTML='<div class="empty">'+({upd:'Updates (Status)',com:'Communities',calls:'Voice / video calls'}[tab])+' VText mein abhi available nahi hai.</div>';return}
   const pn=lset('pin'),mu=lset('mut');const f=chats.filter(c=>title(c).toLowerCase().includes(q)&&lset('arc').has(c.id)===showArc&&(fl==='all'||(fl==='gr'?c.type==='group':c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid])))).sort((a,b)=>(pn.has(b.id)-pn.has(a.id))||M(b.lastTs)-M(a.lastTs));
   if(!f.length){l.innerHTML='<div class="empty">Koi chat nahi.<br>💬 dabake username se dost add karo ya group banao.</div>';return}
   f.forEach(c=>{const d=document.createElement('div');d.className='u';
@@ -203,7 +204,8 @@ async function newG(){
   }catch(e){alert(e.message)}
 }
 $('fab').onclick=()=>sheet([['New chat',addC],['New group',newG]]);
-$('mm').onclick=()=>sheet([['New group',newG],['Starred messages',showStars],[showArc?'Chats':'Archived',()=>{showArc=!showArc;renderList()}],['Settings',openSet],['Log out',logout]]);
+$('mm').onclick=()=>sheet([['New group',newG],['Starred messages',showStars],['Read all',readAll],[showArc?'Chats':'Archived',()=>{showArc=!showArc;renderList()}],['Settings',openSet]],'pop');
+function readAll(){chats.forEach(c=>{if(c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid]))db.doc('chats/'+c.id).update({['seen.'+me.uid]:SV()}).catch(()=>{})})}
 const col2=()=>db.collection('chats/'+cur.id+'/messages');
 function stat(){if(!cur)return;let t='';const tp=Object.entries(cur.typing||{}).filter(a=>a[0]!==me.uid&&Date.now()-M(a[1])<6000).map(a=>cur.names[a[0]]||'');
   if(tp.length)t=cur.type==='group'?tp.join(', ')+' typing…':'typing…';else if(cur.type==='group')t=Object.values(cur.names).join(', ');else if(peer&&peer.seen&&!peer.hideSeen){const d=peer.seen.toDate();t=Date.now()-d<1e5?'online':'last seen '+day(d)+' '+hm(d)}$('cst').textContent=t}
@@ -259,8 +261,8 @@ $('back').onclick=()=>{$('app').classList.remove('open');unsubM&&unsubM();unsubS
 $('hd').onclick=()=>{if(!cur)return;if(cur.type==='group')sheet([['👥 '+cur.name]].concat(cur.members.map(u=>['• '+(cur.names[u]||'User')+((cur.admins||[]).includes(u)?' (admin)':''),(cur.admins||[]).includes(me.uid)&&u!==me.uid?()=>memM(u):null])));else if(peer)sheet([['👤 '+title(cur)],['@'+peer.username],['About: '+(peer.about||'—')]])};
 $('cm').onclick=()=>{if(!cur)return;const id=cur.id,g=cur.type==='group',ad=g&&(cur.admins||[]).includes(me.uid),o=g?null:cur.members.find(x=>x!==me.uid);
   const r=[[g?'Group info':'View contact',()=>$('hd').onclick()],['Search',()=>{qs=(prompt('Search')||'').toLowerCase();renderM()}],[lset('mut').has(id)?'Unmute notifications':'Mute notifications',()=>{tog('mut',id);renderList()}],['Disappearing messages',timerM],[lset('pin').has(id)?'Unpin chat':'Pin chat',()=>{tog('pin',id);renderList()}],[lset('arc').has(id)?'Unarchive chat':'Archive chat',()=>{tog('arc',id);renderList()}],
-  ['More…',()=>{const m=[['Clear chat',()=>{put('clr_'+id,Date.now());renderM()}]];if(g){if(ad)m.push(['Add participants',addM],['Change group name',renG],['Change group photo',()=>{pt='g';$('pf').click()}]);m.push(['Exit group',leaveG])}else m.push([lset('blk').has(o)?'Unblock':'Block',()=>{tog('blk',o);renderM()}]);sheet(m)}]];
-  if(qs)r.unshift(['Clear search',()=>{qs='';renderM()}]);sheet(r)};
+  ['More…',()=>{const m=[['Clear chat',()=>{put('clr_'+id,Date.now());renderM()}]];if(g){if(ad)m.push(['Add participants',addM],['Change group name',renG],['Change group photo',()=>{pt='g';$('pf').click()}]);m.push(['Exit group',leaveG])}else m.push([lset('blk').has(o)?'Unblock':'Block',()=>{tog('blk',o);renderM()}]);sheet(m,'pop')}]];
+  if(qs)r.unshift(['Clear search',()=>{qs='';renderM()}]);sheet(r,'pop')};
 async function renG(){const n=(prompt('Naya naam',cur.name)||'').trim();if(n)db.doc('chats/'+cur.id).update({name:n.slice(0,40)}).catch(e=>alert(e.message))}
 async function addM(){const un=clean(prompt('Naye member ka username')||'');if(!un)return;try{const o=await find(un);if(cur.members.includes(o.uid))return alert('Ye pehle se group me hai');await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayUnion(o.uid),['names.'+o.uid]:o.name});alert(o.name+' add ho gaya ✅')}catch(e){alert(e.message)}}
 async function leaveG(){if(!confirm('Group chhodna hai?'))return;try{await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayRemove(me.uid)});$('back').onclick()}catch(e){alert(e.message)}}
@@ -305,8 +307,14 @@ $('file').onchange=async e=>{
   st('');
 };
 function openSet(){$('sn').value=me.name;$('sa').value=me.about||'';$('su').textContent='@'+me.username;av($('sav'),me.name,false,me.photo);
-  $('th').value=get('theme','auto');$('fs').value=get('fs','16');$('ex').value=get('exp','86400000');$('en').checked=get('enter','1')==='1';$('nt').checked=get('notif','0')==='1';$('wp').value=get('wp','');$('tc').value=get('tc','g');$('sd').checked=get('snd','1')==='1';$('rr').checked=get('rr','1')==='1';$('hs').checked=!!me.hideSeen;$('set').style.display='flex'}
-$('sx').onclick=()=>$('set').style.display='none';
+  $('th').value=get('theme','auto');$('fs').value=get('fs','16');$('ex').value=get('exp','86400000');$('en').checked=get('enter','1')==='1';$('nt').checked=get('notif','0')==='1';$('wp').value=get('wp','');$('tc').value=get('tc','g');$('sd').checked=get('snd','1')==='1';$('rr').checked=get('rr','1')==='1';$('hs').checked=!!me.hideSeen;$('sname').textContent=me.name;closeP();
+  $('rows').innerHTML=[['acc','key','Account','Password, delete account'],['priv','lock','Privacy','Last seen, blocked accounts, disappearing messages'],['chats','chat','Chats','Wallpaper, enter key'],['app','palette','Appearance','Chat theme, app theme'],['notif','bell','Notifications','Message tones'],['acs','access','Accessibility','Font size'],['help','help','Help and feedback','About VText'],['inv','com','Invite a friend','Share VText link'],['out','out','Log out','']].map(a=>'<div class="rw" data-p="'+a[0]+'" data-t="'+a[2]+'">'+ic(a[1])+'<div>'+a[2]+(a[3]?'<small>'+a[3]+'</small>':'')+'</div></div>').join('');
+  $('set').style.display='flex'}
+let cp2=null;
+function openP(p,t){cp2=p;$('sm').style.display='none';document.querySelectorAll('.ps').forEach(x=>x.style.display=x.id==='p-'+p?'block':'none');$('stt').textContent=t}
+function closeP(){cp2=null;$('sm').style.display='block';document.querySelectorAll('.ps').forEach(x=>x.style.display='none');$('stt').textContent='Settings'}
+$('sx').onclick=()=>{if(cp2)closeP();else $('set').style.display='none'};$('spe').onclick=()=>openP('prof','Edit profile');
+$('rows').onclick=e=>{const r=e.target.closest('[data-p]');if(!r)return;const p=r.dataset.p;if(p==='inv'){const u=location.origin+location.pathname;return navigator.share?navigator.share({title:'VText',text:'VText par chat karo',url:u}).catch(()=>{}):prompt('Link copy karo',u)}if(p==='out'){$('set').style.display='none';return logout()}openP(p,r.dataset.t)};
 $('th').onchange=e=>{put('theme',e.target.value);look()};$('fs').onchange=e=>{put('fs',e.target.value);look()};
 $('ex').onchange=e=>put('exp',e.target.value);$('en').onchange=e=>put('enter',e.target.checked?'1':'0');
 $('nt').onchange=e=>{if(!e.target.checked||!window.Notification){put('notif','0');return}Notification.requestPermission().then(p=>{put('notif',p==='granted'?'1':'0');$('nt').checked=p==='granted'})};
@@ -314,7 +322,7 @@ $('ss').onclick=async()=>{const name=$('sn').value.trim();if(!name)return alert(
   try{await db.doc('users/'+me.uid).set({name,about:$('sa').value.trim()},{merge:true});
     const b=db.batch();chats.forEach(c=>b.update(db.doc('chats/'+c.id),{['names.'+me.uid]:name}));await b.commit();alert('Profile save ho gaya ✅')}catch(e){alert(e.message)}};
 $('tc').onchange=e=>{put('tc',e.target.value);look()};
-$('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;const n=b.dataset.n;if(n==='set')return openSet();if(n==='star')return showStars();showArc=n==='arc';[...$('nav').children].forEach(x=>x.classList.toggle('on',x===b));renderList()};
+$('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.n;[...$('nav').children].forEach(x=>x.classList.toggle('on',x===b));$('fab').style.display=$('sw2').style.display=tab==='chats'?'':'none';renderList()};
 $('wp').onchange=e=>{put('wp',e.target.value);look()};$('sd').onchange=e=>put('snd',e.target.checked?'1':'0');$('rr').onchange=e=>put('rr',e.target.checked?'1':'0');
 $('hs').onchange=e=>db.doc('users/'+me.uid).set({hideSeen:e.target.checked},{merge:true});
 $('pw').onclick=()=>auth.sendPasswordResetEmail(auth.currentUser.email).then(()=>alert('Reset email bhej diya')).catch(e=>alert(e.message));
@@ -330,5 +338,11 @@ $('chips').onclick=e=>{const f=e.target.dataset.f;if(!f)return;fl=f;[...$('chips
 function sq(f){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const m=Math.min(im.width,im.height),cv=document.createElement('canvas');cv.width=cv.height=128;cv.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,128,128);res(cv.toDataURL('image/jpeg',.7))};im.onerror=()=>rej(Error('Photo padh nahi paye'));im.src=URL.createObjectURL(f)})}
 $('sav').onclick=()=>{pt='me';$('pf').click()};
 $('pf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{const p=await sq(f);if(pt==='g')await db.doc('chats/'+cur.id).update({photo:p});else{await db.doc('users/'+me.uid).set({photo:p},{merge:true});const b=db.batch();chats.forEach(c=>b.update(db.doc('chats/'+c.id),{['photos.'+me.uid]:p}));await b.commit();av($('sav'),me.name,false,p)}}catch(er){alert(er.message)}};
+$('cam').onclick=()=>$('cf').click();
+$('cf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+  try{const d=await compress(f);if(!chats.length)return alert('Pehle koi chat banao');
+    sheet([['Photo kisko bhejni hai?']].concat(chats.map(c=>['→ '+title(c),async()=>{try{await db.collection('chats/'+c.id+'/messages').add({from:me.uid,fromName:me.name,ts:SV(),expireAt:ex(),type:'img',data:d});await db.doc('chats/'+c.id).update({last:'📷 Photo',lastTs:SV(),lastFrom:me.uid});st('Photo bhej di ✅');setTimeout(()=>st(''),1500)}catch(er){alert(er.message)}}])))}catch(er){alert(er.message)}};
+const AP=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.App;
+if(AP)AP.addListener('backButton',()=>{if($('sheet').style.display==='flex')$('sheet').style.display='none';else if($('vw').style.display==='flex')$('vw').style.display='none';else if($('set').style.display==='flex')$('sx').onclick();else if($('app').classList.contains('open'))$('back').onclick();else AP.exitApp()});
 }
 </script></body></html>
