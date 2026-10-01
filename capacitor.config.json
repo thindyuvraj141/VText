@@ -1,8 +1,8 @@
 {
-  "appId": "com.vtext.app",
+  "appId": "com.thindyuvraj.vtext",
   "appName": "VText",
   "webDir": "www",
-  "server": {
-    "url": "https://thindyuvraj141.github.io/VText/"
+  "android": {
+    "adjustMarginsForEdgeToEdge": "force"
   }
 }
