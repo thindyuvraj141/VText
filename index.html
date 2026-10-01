@@ -2,43 +2,64 @@
 <html lang="hi"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#7c3aed">
+<meta name="theme-color" content="#6d28d9">
 <title>VText</title>
 <link rel="icon" href="logo.svg"><link rel="manifest" href="manifest.json">
 <style>
-:root{--bg:#f0f2f5;--panel:#fff;--txt:#111b21;--sub:#667781;--me:#e7dcff;--them:#fff;--acc:#7c3aed;--line:#e4e6eb}
-@media(prefers-color-scheme:dark){:root{--bg:#0b141a;--panel:#111b21;--txt:#e9edef;--sub:#8696a0;--me:#4c2a85;--them:#202c33;--line:#222d34}}
+:root{--bg:#f3effa;--panel:#fff;--txt:#1b1530;--sub:#6b7280;--me:#e4d9ff;--them:#fff;--acc:#7c3aed;--line:#ece8f5}
+.dk{--bg:#0e0b16;--panel:#17131f;--txt:#ece9f5;--sub:#9a94ab;--me:#4c2a85;--them:#241e30;--line:#2a2436}
 *{box-sizing:border-box}html,body{height:100%;margin:0}
 body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--txt)}
-button,input{font:inherit;color:inherit}
+button,input,select{font:inherit;color:inherit}
 #auth{height:100%;display:flex;align-items:center;justify-content:center;padding:20px}
 .card{background:var(--panel);padding:28px;border-radius:16px;width:100%;max-width:360px;text-align:center}
 .card img{width:84px}.card h1{margin:8px 0 16px}
-input{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
 .btn{width:100%;padding:12px;margin-top:8px;border:0;border-radius:10px;background:var(--acc);color:#fff;cursor:pointer}
 .link{background:none;border:0;color:var(--acc);margin-top:12px;cursor:pointer}
-#err{color:#e11d48;font-size:14px;min-height:18px}
+#err{color:#e11d48;font-size:.9rem;min-height:18px}
 #app{display:none;height:100%}
-#side,#chat{height:100%;display:flex;flex-direction:column;background:var(--panel)}
-#side{width:100%}#chat{display:none;background:var(--bg)}
-@media(min-width:800px){#app{display:flex}#side{width:340px;border-right:1px solid var(--line)}#chat{display:flex;flex:1}#back{display:none}}
+#side,#chat{height:100%;display:flex;flex-direction:column;background:var(--panel);position:relative}
+#side{width:100%}#chat{display:none}
+@media(min-width:800px){#app{display:flex}#side{width:360px;border-right:1px solid var(--line)}#chat{display:flex;flex:1}#back{display:none}}
 @media(max-width:799px){#app.open #side{display:none}#app.open #chat{display:flex}}
-header{display:flex;align-items:center;gap:10px;padding:12px;background:var(--panel);border-bottom:1px solid var(--line)}
-header img{width:32px}header b{flex:1}
-.ib{background:none;border:0;font-size:20px;cursor:pointer}
-#search{margin:8px 12px;width:auto}
+.top{display:flex;align-items:center;gap:10px;padding:12px;padding-top:calc(12px + env(safe-area-inset-top));background:linear-gradient(135deg,#6d28d9,#7c3aed);color:#fff}
+.top b{font-size:1.15rem}.top .g{flex:1;min-width:0}.top small{display:block;opacity:.8;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{background:none;border:0;color:inherit;font-size:1.3rem;cursor:pointer;padding:4px 8px}
+#search{margin:8px 12px;width:auto;display:none}
 #list{flex:1;overflow:auto}
-.u{display:flex;gap:12px;align-items:center;padding:12px;cursor:pointer;border-bottom:1px solid var(--line)}
-.u:hover{background:var(--bg)}
-.av{width:42px;height:42px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
-#msgs{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:6px}
-.m{max-width:78%;padding:8px 12px;border-radius:12px;background:var(--them);word-wrap:break-word;white-space:pre-wrap}
-.m.me{align-self:flex-end;background:var(--me)}
-.m small{display:block;text-align:right;color:var(--sub);font-size:11px;margin-top:2px}
-#bar{display:flex;gap:8px;padding:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom));background:var(--panel)}
-#bar input{margin:0;flex:1;border-radius:22px}
-#bar .btn{width:auto;margin:0;padding:0 20px;border-radius:22px}
-.m img,.m video{max-width:100%;border-radius:8px;display:block}.m b{display:block;font-size:12px;color:var(--acc)}.vb{background:none;border:1px solid var(--acc);border-radius:8px;padding:8px 12px;cursor:pointer}#at{cursor:pointer;font-size:22px;align-self:center}.empty{margin:auto;color:var(--sub);text-align:center;padding:20px}
+.u{display:flex;gap:12px;align-items:center;padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--line)}
+.u:hover{background:var(--bg)}.u .t{flex:1;min-width:0}
+.u .t div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--sub);font-size:.88rem}
+.u .r{text-align:right;font-size:.72rem;color:var(--sub)}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--acc);margin-top:6px}
+.av{width:44px;height:44px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}
+.av.big{width:84px;height:84px;font-size:2rem;margin:10px auto}
+#fab{position:absolute;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:18px;border:0;background:var(--acc);color:#fff;font-size:1.5rem;box-shadow:0 4px 14px #0004;cursor:pointer}
+#msgs{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:4px;background:var(--bg) radial-gradient(var(--line) 1.2px,transparent 1.2px) 0 0/22px 22px}
+.m{max-width:80%;padding:6px 10px 4px;border-radius:12px 12px 12px 2px;background:var(--them);word-wrap:break-word;white-space:pre-wrap;box-shadow:0 1px 1px #0002;cursor:pointer}
+.m.me{align-self:flex-end;background:var(--me);border-radius:12px 12px 2px 12px}
+.m::after{content:'';display:block;clear:both}
+.m small{float:right;margin:4px 0 0 10px;font-size:.65rem;color:var(--sub)}.bl{color:#38bdf8!important}
+.m b{display:block;font-size:.8rem}.m img,.m video{max-width:100%;border-radius:8px;display:block}.m audio{max-width:100%;height:38px}
+.q{border-left:3px solid var(--acc);background:#0001;padding:3px 6px;border-radius:4px;font-size:.8rem;margin-bottom:3px;color:var(--sub)}
+.dt{align-self:center;background:var(--panel);color:var(--sub);font-size:.72rem;padding:3px 10px;border-radius:10px;margin:6px 0}
+.vb{background:none;border:1px solid var(--acc);border-radius:8px;padding:8px 12px;cursor:pointer}
+.empty{margin:auto;color:var(--sub);text-align:center;padding:20px}
+#bar{display:flex;gap:8px;padding:8px;padding-bottom:calc(8px + env(safe-area-inset-bottom));background:var(--bg);align-items:center}
+.in{flex:1;display:flex;align-items:center;background:var(--panel);border-radius:24px;padding:0 8px}
+.in input{border:0;margin:0;background:none;padding:12px 4px}.in button,#at{background:none;border:0;font-size:1.3rem;cursor:pointer}
+.rb{width:46px;height:46px;border-radius:50%;border:0;background:var(--acc);color:#fff;font-size:1.2rem;cursor:pointer;flex:none}.rc{background:#e11d48}
+#rp{display:none;background:var(--panel);padding:6px 12px;border-left:4px solid var(--acc);font-size:.85rem;color:var(--sub)}
+#emo{display:none;background:var(--panel);padding:6px;flex-wrap:wrap;max-height:130px;overflow:auto}
+#emo span{font-size:1.5rem;padding:4px;cursor:pointer}
+#sheet,#vw{position:fixed;inset:0;background:#0007;display:none;z-index:30;align-items:flex-end;justify-content:center}
+#vw{align-items:center;background:#000e}#vw img{max-width:100%;max-height:100%}
+.sb{background:var(--panel);width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
+.sr{padding:15px 20px;cursor:pointer}.sr:active{background:var(--bg)}.ro{cursor:default;color:var(--sub)}
+#set{position:fixed;inset:0;background:var(--panel);z-index:20;display:none;flex-direction:column}
+.sc{flex:1;overflow:auto;padding:14px;max-width:520px;width:100%;margin:0 auto}.sc label{display:block;margin-top:12px;font-size:.85rem;color:var(--sub)}
+.sc label input[type=checkbox]{width:auto;margin-right:8px}.sub{color:var(--sub);font-size:.85rem;text-align:center}.out{background:#e11d48}
+#st{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#000c;color:#fff;padding:6px 14px;border-radius:14px;display:none;z-index:40}
 </style></head><body>
 <div id="auth"><div class="card">
 <img src="logo.svg" alt="VText"><h1>VText</h1>
@@ -51,14 +72,24 @@ header img{width:32px}header b{flex:1}
 <button class="link" id="sw">Naya account banao</button>
 </div></div>
 <div id="app">
-<div id="side"><header><img src="logo.svg" alt=""><b>VText <small id="meun" style="font-weight:400;color:var(--sub)"></small></b>
-<button class="ib" id="addc" title="Username se add karo">➕</button><button class="ib" id="addg" title="Naya group">👥</button><button class="ib" id="out" title="Logout">⎋</button></header>
-<input id="search" placeholder="Chat khojo"><div id="list"></div></div>
-<div id="chat"><header><button class="ib" id="back">←</button><div class="av" id="cav"></div><b id="cname">Chat chuno</b></header>
-<div id="msgs"><div class="empty">Chat chuno ya ➕ se username daalke naya dost add karo</div></div>
-<form id="bar" style="display:none"><label id="at">📎<input id="file" type="file" accept="image/*,video/*" hidden></label><input id="txt" placeholder="Message likho" autocomplete="off"><button class="btn">Bhejo</button></form></div>
+<div id="side"><div class="top"><b class="g">VText</b><button class="ib" id="sb">🔍</button><button class="ib" id="mm">⋮</button></div>
+<input id="search" placeholder="Chat khojo"><div id="list"></div><button id="fab">💬</button></div>
+<div id="chat"><div class="top"><button class="ib" id="back">←</button><div class="av" id="cav"></div><div class="g" id="hd" style="cursor:pointer"><b id="cname"></b><small id="cst"></small></div><button class="ib" id="cm">⋮</button></div>
+<div id="msgs"></div><div id="rp"></div><div id="emo"></div>
+<div id="bar"><div class="in"><button id="eb">😊</button><input id="txt" placeholder="Message" autocomplete="off"><label id="at">📎<input id="file" type="file" accept="image/*,video/*" hidden></label></div><button class="rb" id="snd">🎤</button></div></div>
 </div>
-<div id="st" style="position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#000c;color:#fff;padding:6px 14px;border-radius:14px;display:none"></div>
+<div id="set"><div class="top"><button class="ib" id="sx">←</button><b>Settings</b></div><div class="sc">
+<div class="av big" id="sav"></div><div class="sub" id="su"></div>
+<label>Naam</label><input id="sn" maxlength="30"><label>About</label><input id="sa" maxlength="80" placeholder="Hey, main VText use kar raha hoon">
+<button class="btn" id="ss">Profile save karo</button>
+<label>Theme</label><select id="th"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select>
+<label>Font size</label><select id="fs"><option value="14">Chhota</option><option value="16">Normal</option><option value="18">Bada</option></select>
+<label>Messages is time ke baad hat jayenge</label><select id="ex"><option value="3600000">1 ghanta</option><option value="86400000">24 ghante</option><option value="604800000">7 din</option></select>
+<label><input type="checkbox" id="en">Enter dabane par bhejo</label>
+<label><input type="checkbox" id="nt">Notifications (app khuli ho tab)</label>
+<button class="btn out" id="lo">Logout</button><p class="sub">VText · koi backup nahi, messages khud delete hote hain</p>
+</div></div>
+<div id="sheet"></div><div id="vw"><img alt=""></div><div id="st"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -71,20 +102,28 @@ window.FIREBASE_CONFIG = {
   messagingSenderId: "448390510213",
   appId: "1:448390510213:web:0b96f283bedf72d43ddbec"
 };
+
 </script>
 <script>
 const $=id=>document.getElementById(id);
 window.onerror=m=>{$('err').textContent='Error: '+m;$('go').disabled=false};
+const get=(k,d)=>{try{return localStorage.getItem('vt_'+k)||d}catch(e){return d}},put=(k,v)=>{try{localStorage.setItem('vt_'+k,v)}catch(e){}};
+function look(){const t=get('theme','auto');document.documentElement.classList.toggle('dk',t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches));document.documentElement.style.fontSize=get('fs','16')+'px'}look();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-let signup=false,me=null,chats=[],cur=null,unsubM,unsubC,unsubP;const vids=new Map();
-const TTL=864e5,PART=700000,MAXV=3*1024*1024;
+let signup=false,me=null,chats=[],cur=null,peer=null,docs=[],reply=null,unsubM,unsubC,unsubP,unsubS,rec=null,chunks=[],rt;const vids=new Map(),PART=700000,MAXV=3*1024*1024;
 $('sw').onclick=()=>{signup=!signup;['name','un'].forEach(i=>$(i).style.display=signup?'block':'none');$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Account hai? Login':'Naya account banao';$('err').textContent=''};
 const st=t=>{$('st').textContent=t;$('st').style.display=t?'block':'none'};
+const hm=d=>d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),M=t=>t&&t.toMillis?t.toMillis():0;
+const day=d=>{const n=new Date(),y=new Date(Date.now()-864e5);return d.toDateString()===n.toDateString()?'Aaj':d.toDateString()===y.toDateString()?'Kal':d.toLocaleDateString()};
+const col=n=>'hsl('+(Math.abs([...n].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%360)+',55%,42%)';
+const av=(el,n,g)=>{el.style.background=col(n);el.textContent=g?'👥':n[0].toUpperCase()};
+function sheet(rows){const s=$('sheet');s.innerHTML='';const b=document.createElement('div');b.className='sb';rows.forEach(r=>{const d=document.createElement('div');d.className='sr'+(r[1]?'':' ro');d.textContent=r[0];if(r[1])d.onclick=()=>{s.style.display='none';r[1]()};b.appendChild(d)});s.appendChild(b);s.style.display='flex';s.onclick=e=>{if(e.target===s)s.style.display='none'}}
+$('vw').onclick=()=>$('vw').style.display='none';
 if(typeof firebase==='undefined'){$('err').textContent='Firebase load nahi hua. Internet/VPN/ad-blocker check karo.';$('go').disabled=true}
-else if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){$('err').textContent='Pehle config.js me Firebase config daalo (README dekho).';$('go').disabled=true}
+else if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){$('err').textContent='Firebase config nahi mila.';$('go').disabled=true}
 else{
 firebase.initializeApp(FIREBASE_CONFIG);
-const auth=firebase.auth(),db=firebase.firestore(),TS=firebase.firestore.Timestamp;
+const auth=firebase.auth(),db=firebase.firestore(),TS=firebase.firestore.Timestamp,SV=()=>firebase.firestore.FieldValue.serverTimestamp(),ex=()=>TS.fromMillis(Date.now()+ +get('exp','86400000'));
 const E={'auth/invalid-credential':'Email ya password galat hai','auth/email-already-in-use':'Ye email pehle se registered hai','auth/weak-password':'Password kam se kam 6 akshar ka rakho','auth/invalid-email':'Email sahi nahi hai'};
 $('go').onclick=async()=>{
   const email=$('email').value.trim(),pass=$('pass').value,name=$('name').value.trim(),un=$('un').value.trim().toLowerCase();
@@ -101,36 +140,47 @@ $('go').onclick=async()=>{
   }catch(e){$('err').textContent=E[e.code]||e.message}
   $('go').disabled=false;
 };
-$('out').onclick=()=>auth.signOut();
-function stop(){[unsubM,unsubC,unsubP].forEach(f=>f&&f());unsubM=unsubC=unsubP=null;cur=null;chats=[];vids.clear()}
+const logout=()=>auth.signOut();$('lo').onclick=()=>{$('set').style.display='none';logout()};
+function stop(){[unsubM,unsubC,unsubP,unsubS].forEach(f=>f&&f());unsubM=unsubC=unsubP=unsubS=null;cur=null;chats=[];vids.clear()}
+const beat=()=>me&&db.doc('users/'+me.uid).set({seen:SV()},{merge:true}).catch(()=>{});setInterval(beat,6e4);
 auth.onAuthStateChanged(u=>{
   stop();me=null;
   if(!u){$('app').style.display='none';$('auth').style.display='flex';return}
-  unsubP=db.doc('users/'+u.uid).onSnapshot(s=>{
-    if(!s.exists||me)return;me={uid:u.uid,...s.data()};
-    $('auth').style.display='none';$('app').style.display='flex';$('app').classList.remove('open');$('meun').textContent='@'+me.username;
-    unsubC=db.collection('chats').where('members','array-contains',me.uid).onSnapshot(q=>{chats=q.docs.map(d=>({id:d.id,...d.data()}));renderList()},()=>{$('list').innerHTML='<div class="empty">Chats load nahi hue. Firestore rules check karo.</div>'});
-  });
+  unsubP=db.doc('users/'+u.uid).onSnapshot(s=>{if(!s.exists)return;const f=!me;me={uid:u.uid,...s.data()};if(f)start()});
 });
 const title=c=>c.type==='group'?c.name:(c.names[c.members.find(x=>x!==me.uid)]||'User');
+function start(){
+  $('auth').style.display='none';$('app').style.display='flex';$('app').classList.remove('open');beat();
+  unsubC=db.collection('chats').where('members','array-contains',me.uid).onSnapshot(q=>{
+    q.docChanges().forEach(ch=>{const c=ch.doc.data();if(ch.type==='modified'&&c.lastFrom&&c.lastFrom!==me.uid&&document.hidden&&get('notif','0')==='1'&&window.Notification&&Notification.permission==='granted')new Notification(title({...c,id:ch.doc.id}),{body:c.last,icon:'logo.svg'})});
+    chats=q.docs.map(d=>({id:d.id,...d.data({serverTimestamps:'estimate'})}));
+    if(cur){const n=chats.find(c=>c.id===cur.id);if(n){cur=n;renderM()}}
+    renderList();
+  },()=>{$('list').innerHTML='<div class="empty">Chats load nahi hue. Firestore rules check karo.</div>'});
+}
 function renderList(){
   const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';
-  const f=chats.filter(c=>title(c).toLowerCase().includes(q)).sort((a,b)=>title(a).localeCompare(title(b)));
-  if(!f.length){l.innerHTML='<div class="empty">Koi chat nahi. ➕ se username daalke dost add karo ya 👥 se group banao.</div>';return}
-  f.forEach(c=>{const d=document.createElement('div');d.className='u';d.innerHTML='<div class="av"></div><b></b>';
-    d.firstChild.textContent=(c.type==='group'?'👥':title(c)[0].toUpperCase());d.lastChild.textContent=title(c);d.onclick=()=>openChat(c);l.appendChild(d)});
+  const f=chats.filter(c=>title(c).toLowerCase().includes(q)).sort((a,b)=>M(b.lastTs)-M(a.lastTs));
+  if(!f.length){l.innerHTML='<div class="empty">Koi chat nahi.<br>💬 dabake username se dost add karo ya group banao.</div>';return}
+  f.forEach(c=>{const d=document.createElement('div');d.className='u';
+    const a=document.createElement('div');a.className='av';av(a,title(c),c.type==='group');
+    const t=document.createElement('div');t.className='t';const n=document.createElement('b');n.textContent=title(c);const p=document.createElement('div');p.textContent=(c.lastFrom===me.uid?'✓ ':'')+(c.last||'Naya chat');t.append(n,p);
+    const r=document.createElement('div');r.className='r';r.textContent=c.lastTs?hm(c.lastTs.toDate()):'';
+    const un=c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid])&&!(cur&&cur.id===c.id);
+    if(un){const o=document.createElement('div');o.className='dot';r.appendChild(o);n.style.fontWeight='800'}
+    d.append(a,t,r);d.onclick=()=>openChat(c);l.appendChild(d)});
 }
-$('search').oninput=renderList;
+$('search').oninput=renderList;$('sb').onclick=()=>{const s=$('search');s.style.display=s.style.display==='block'?'none':'block';if(s.style.display==='block')s.focus();else{s.value='';renderList()}};
 const clean=x=>x.trim().toLowerCase().replace(/^@/,'');
 async function find(un){const u=await db.doc('usernames/'+un).get();if(!u.exists)throw Error('@'+un+' nahi mila');const uid=u.data().uid;const o=(await db.doc('users/'+uid).get()).data();return{uid,name:o.name}}
-$('addc').onclick=async()=>{
+async function addC(){
   const un=clean(prompt('Dost ka username likho')||'');if(!un)return;
   try{const o=await find(un);if(o.uid===me.uid)return alert('Ye aapka apna username hai');
-    const id=[me.uid,o.uid].sort().join('_'),ex=chats.find(c=>c.id===id);if(ex)return openChat(ex);
+    const id=[me.uid,o.uid].sort().join('_'),ex2=chats.find(c=>c.id===id);if(ex2)return openChat(ex2);
     const c={type:'dm',members:[me.uid,o.uid],names:{[me.uid]:me.name,[o.uid]:o.name}};await db.doc('chats/'+id).set(c);openChat({id,...c});
   }catch(e){alert(e.message)}
-};
-$('addg').onclick=async()=>{
+}
+async function newG(){
   const name=(prompt('Group ka naam')||'').trim();if(!name)return;
   const list=(prompt('Members ke username, comma se alag (apna nahi likhna)')||'').split(',').map(clean).filter(Boolean);
   try{const members=[me.uid],names={[me.uid]:me.name};
@@ -138,42 +188,72 @@ $('addg').onclick=async()=>{
     if(members.length<2)return alert('Kam se kam 1 member chahiye');
     const ref=db.collection('chats').doc(),c={type:'group',name:name.slice(0,40),members,names};await ref.set(c);openChat({id:ref.id,...c});
   }catch(e){alert(e.message)}
-};
-const col=()=>db.collection('chats/'+cur.id+'/messages');
-function openChat(c){
-  cur=c;if(unsubM)unsubM();
-  $('cname').textContent=title(c);$('cav').textContent=c.type==='group'?'👥':title(c)[0].toUpperCase();
-  $('bar').style.display='flex';$('app').classList.add('open');$('msgs').innerHTML='';
-  unsubM=col().orderBy('ts').limitToLast(50).onSnapshot(s=>{
-    const box=$('msgs');box.innerHTML='';let n=0;
-    s.docs.forEach(d=>{const m=d.data({serverTimestamps:'estimate'});if(m.expireAt&&m.expireAt.toMillis()<Date.now())return;n++;
-      const e=document.createElement('div');e.className='m'+(m.from===me.uid?' me':'');
-      if(c.type==='group'&&m.from!==me.uid){const b=document.createElement('b');b.textContent=m.fromName||'User';e.appendChild(b)}
-      if(m.type==='img'){const i=document.createElement('img');i.src=m.data;e.appendChild(i)}
-      else if(m.type==='vid'){
-        if(vids.has(d.id))e.appendChild(vplayer(vids.get(d.id)));
-        else{const b=document.createElement('button');b.className='vb';b.textContent='▶ Video dekho';b.onclick=()=>loadVid(d.id,m,b);e.appendChild(b)}
-      }else e.appendChild(document.createTextNode(m.text||''));
-      const t=document.createElement('small');t.textContent=m.ts?m.ts.toDate().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';e.appendChild(t);box.appendChild(e)});
-    if(!n)box.innerHTML='<div class="empty">Abhi koi message nahi. Hi bolo 👋<br><small>Messages 24 ghante baad apne aap delete ho jaate hain.</small></div>';
-    box.scrollTop=box.scrollHeight;
-  },()=>{$('msgs').innerHTML='<div class="empty">Messages load nahi hue. Firestore rules check karo.</div>'});
 }
+$('fab').onclick=()=>sheet([['➕ Username se naya chat',addC],['👥 Naya group',newG]]);
+$('mm').onclick=()=>sheet([['👥 Naya group',newG],['⚙️ Settings',openSet],['🚪 Logout',logout]]);
+const col2=()=>db.collection('chats/'+cur.id+'/messages');
+function stat(){let t='';if(cur.type==='group')t=Object.values(cur.names).join(', ');else if(peer&&peer.seen){const d=peer.seen.toDate();t=Date.now()-d<1e5?'online':'last seen '+day(d)+' '+hm(d)}$('cst').textContent=t}
+function openChat(c){
+  cur=c;peer=null;reply=null;rp();unsubM&&unsubM();unsubS&&unsubS();docs=[];
+  $('cname').textContent=title(c);av($('cav'),title(c),c.type==='group');$('cst').textContent='';$('emo').style.display='none';
+  $('app').classList.add('open');$('msgs').innerHTML='';renderList();
+  if(c.type==='dm')unsubS=db.doc('users/'+c.members.find(x=>x!==me.uid)).onSnapshot(s=>{peer=s.data({serverTimestamps:'estimate'});stat()});else stat();
+  unsubM=col2().orderBy('ts').limitToLast(50).onSnapshot(s=>{docs=s.docs.map(d=>({id:d.id,...d.data({serverTimestamps:'estimate'})}));renderM();seen()},()=>{$('msgs').innerHTML='<div class="empty">Messages load nahi hue. Firestore rules check karo.</div>'});
+}
+function seen(){if(!cur||!docs.length)return;const l=docs[docs.length-1];if(l.from===me.uid||!l.ts)return;if(M(cur.seen&&cur.seen[me.uid])>=M(l.ts))return;db.doc('chats/'+cur.id).update({['seen.'+me.uid]:SV()}).catch(()=>{})}
+const prev=x=>x.type==='img'?'📷 Photo':x.type==='vid'?'🎥 Video':x.type==='aud'?'🎤 Voice':(x.text||'').slice(0,60);
+function renderM(){
+  if(!cur)return;const box=$('msgs'),clr=+get('clr_'+cur.id,0),o=cur.type==='dm'&&cur.seen?cur.seen[cur.members.find(x=>x!==me.uid)]:null;
+  const keep=box.scrollHeight-box.scrollTop-box.clientHeight<90;box.innerHTML='';let n=0,ld='';
+  docs.forEach(x=>{const t=x.ts&&x.ts.toDate?x.ts.toDate():new Date();if((x.expireAt&&M(x.expireAt)<Date.now())||+t<clr)return;n++;
+    const dd=day(t);if(dd!==ld){ld=dd;const h=document.createElement('div');h.className='dt';h.textContent=dd;box.appendChild(h)}
+    const mine=x.from===me.uid,e=document.createElement('div');e.className='m'+(mine?' me':'');
+    if(cur.type==='group'&&!mine){const b=document.createElement('b');b.textContent=x.fromName||'User';b.style.color=col(x.fromName||'U');e.appendChild(b)}
+    if(x.reply){const q=document.createElement('div');q.className='q';q.textContent=x.reply.n+': '+x.reply.t;e.appendChild(q)}
+    if(x.type==='img'){const i=document.createElement('img');i.src=x.data;i.onclick=ev=>{ev.stopPropagation();$('vw').firstChild.src=x.data;$('vw').style.display='flex'};e.appendChild(i)}
+    else if(x.type==='aud'){const a=document.createElement('audio');a.src=x.data;a.controls=true;a.onclick=ev=>ev.stopPropagation();e.appendChild(a)}
+    else if(x.type==='vid'){if(vids.has(x.id)){const v=vplayer(vids.get(x.id));v.onclick=ev=>ev.stopPropagation();e.appendChild(v)}else{const b=document.createElement('button');b.className='vb';b.textContent='▶ Video dekho';b.onclick=ev=>{ev.stopPropagation();loadVid(x.id,x,b)};e.appendChild(b)}}
+    else e.appendChild(document.createTextNode(x.text||''));
+    const s=document.createElement('small'),rd=mine&&o&&M(o)>=M(x.ts);s.textContent=hm(t)+(mine?(rd?' ✓✓':' ✓'):'');if(rd)s.className='bl';e.appendChild(s);
+    e.onclick=()=>msgMenu(x);box.appendChild(e)});
+  if(!n)box.innerHTML='<div class="empty">Abhi koi message nahi. Hi bolo 👋<br><small>Messages khud delete ho jaate hain (Settings me time badlo).</small></div>';
+  if(keep)box.scrollTop=box.scrollHeight;
+}
+function msgMenu(x){const r=[['↩️ Reply',()=>{reply={n:x.fromName||'User',t:prev(x)};rp();$('txt').focus()}]];
+  if(x.text)r.push(['📋 Copy',()=>navigator.clipboard&&navigator.clipboard.writeText(x.text)]);
+  if(x.from===me.uid)r.push(['🗑 Sabke liye delete',()=>col2().doc(x.id).delete().catch(e=>alert(e.message))]);sheet(r)}
+function rp(){const b=$('rp');if(!reply){b.style.display='none';return}b.style.display='block';b.textContent='↩ '+reply.n+': '+reply.t+'   ✕';b.onclick=()=>{reply=null;rp()}}
 function vplayer(u){const v=document.createElement('video');v.src=u;v.controls=true;v.playsInline=true;return v}
 async function loadVid(id,m,b){
   b.textContent='Load ho raha hai…';
   try{const s=await db.collection(`chats/${cur.id}/messages/${id}/parts`).orderBy('i').get();
-    if(s.size!==m.parts)throw Error('Video adhoora hai ya expire ho gaya');
+    if(s.size!==m.parts)throw Error('x');
     const arr=s.docs.map(x=>Uint8Array.from(atob(x.data().d),c=>c.charCodeAt(0)));
-    vids.set(id,URL.createObjectURL(new Blob(arr,{type:m.mime||'video/mp4'})));b.replaceWith(vplayer(vids.get(id)));
-  }catch(e){b.textContent='Video load nahi hua';}
+    vids.set(id,URL.createObjectURL(new Blob(arr,{type:m.mime||'video/mp4'})));renderM();
+  }catch(e){b.textContent='Video load nahi hua'}
 }
-$('back').onclick=()=>{$('app').classList.remove('open');if(unsubM){unsubM();unsubM=null}cur=null};
-const base=()=>({from:me.uid,fromName:me.name,ts:firebase.firestore.FieldValue.serverTimestamp(),expireAt:TS.fromMillis(Date.now()+TTL)});
-$('bar').onsubmit=async e=>{
-  e.preventDefault();const text=$('txt').value.trim();if(!text||!cur)return;$('txt').value='';
-  try{await col().add({...base(),type:'text',text:text.slice(0,2000)})}catch(err){alert('Message nahi gaya: '+err.message)}
-};
+$('back').onclick=()=>{$('app').classList.remove('open');unsubM&&unsubM();unsubS&&unsubS();unsubM=unsubS=null;cur=null;renderList()};
+$('hd').onclick=()=>{if(!cur)return;if(cur.type==='group')sheet([['👥 '+cur.name]].concat(Object.values(cur.names).map(n=>['• '+n])));else if(peer)sheet([['👤 '+title(cur)],['@'+peer.username],['About: '+(peer.about||'—')]])};
+$('cm').onclick=()=>cur&&sheet([['ℹ️ Info',()=>$('hd').onclick()],['🧹 Chat khali karo (sirf mere liye)',()=>{put('clr_'+cur.id,Date.now());renderM()}],['⬅️ Chat band karo',()=>$('back').onclick()]]);
+async function post(x,p,ref){const c=cur;ref=ref||col2().doc();const b={from:me.uid,fromName:me.name,ts:SV(),expireAt:x.exp||ex(),...x};delete b.exp;if(reply)b.reply=reply;reply=null;rp();await ref.set(b);db.doc('chats/'+c.id).update({last:p,lastTs:SV(),lastFrom:me.uid}).catch(()=>{})}
+const mic=()=>{if(!rec){$('snd').textContent=$('txt').value.trim()?'➤':'🎤'}};
+async function sendT(){const t=$('txt').value.trim();if(!t||!cur)return;$('txt').value='';mic();try{await post({type:'text',text:t.slice(0,2000)},t.slice(0,40))}catch(e){alert('Message nahi gaya: '+e.message)}}
+async function recT(){
+  if(rec){rec.stop();return}
+  if(!cur)return;
+  try{const s=await navigator.mediaDevices.getUserMedia({audio:true});const r=new MediaRecorder(s,{audioBitsPerSecond:24000});rec=r;chunks=[];
+    r.ondataavailable=e=>chunks.push(e.data);
+    r.onstop=async()=>{clearTimeout(rt);s.getTracks().forEach(t=>t.stop());const bl=new Blob(chunks,{type:r.mimeType});rec=null;$('snd').classList.remove('rc');mic();
+      if(!bl.size)return;const d=await new Promise(z=>{const f=new FileReader();f.onload=()=>z(f.result);f.readAsDataURL(bl)});
+      if(d.length>900000)return alert('Voice bahut lambi hai');st('Voice bhej rahe hain…');try{await post({type:'aud',data:d},'🎤 Voice')}catch(e){alert(e.message)}st('')};
+    r.start();$('snd').textContent='⏹';$('snd').classList.add('rc');rt=setTimeout(()=>rec&&rec.stop(),60000);
+  }catch(e){alert('Mic permission nahi mili')}
+}
+$('snd').onclick=()=>$('txt').value.trim()?sendT():recT();
+$('txt').oninput=mic;$('txt').onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey&&get('enter','1')==='1'){e.preventDefault();sendT()}};
+$('emo').innerHTML='😀 😂 🤣 😍 🥰 😘 😊 😉 😎 🤔 😢 😭 😡 😱 🙄 😴 🥳 😇 🤗 😜 👍 👎 🙏 👏 🙌 💪 🤝 👋 ✌️ 👀 🔥 ✨ ❤️ 💔 🎉 🎂 🎁 🌹'.split(' ').map(e=>'<span>'+e+'</span>').join('');
+$('emo').onclick=e=>{if(e.target.tagName==='SPAN'){$('txt').value+=e.target.textContent;mic()}};
+$('eb').onclick=()=>{const e=$('emo');e.style.display=e.style.display==='flex'?'none':'flex'};
 function compress(f){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{
   let k=Math.min(1,1000/Math.max(im.width,im.height)),w=im.width*k,h=im.height*k,q=.75,o;const cv=document.createElement('canvas');
   for(let t=0;t<6;t++){cv.width=Math.round(w);cv.height=Math.round(h);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);o=cv.toDataURL('image/jpeg',q);if(o.length<800000)break;w*=.8;h*=.8;q-=.08}
@@ -181,17 +261,26 @@ function compress(f){return new Promise((res,rej)=>{const im=new Image();im.onlo
 $('file').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f||!cur)return;
   try{
-    if(f.type.startsWith('image/')){st('Photo bhej rahe hain…');await col().add({...base(),type:'img',data:await compress(f)})}
+    if(f.type.startsWith('image/')){st('Photo bhej rahe hain…');await post({type:'img',data:await compress(f)},'📷 Photo')}
     else if(f.type.startsWith('video/')){
       if(f.size>MAXV)return alert('Video 3MB se chhota rakho (lagbhag 10-15 second)');
       st('Video bhej rahe hain…');
       const url=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});
-      const b64=url.split(',')[1],n=Math.ceil(b64.length/PART),ref=col().doc(),b=base();
-      for(let i=0;i<n;i++)await ref.collection('parts').doc('p'+i).set({i,d:b64.slice(i*PART,(i+1)*PART),expireAt:b.expireAt});
-      await ref.set({...b,type:'vid',parts:n,mime:f.type||'video/mp4'});
+      const b64=url.split(',')[1],n=Math.ceil(b64.length/PART),ref=col2().doc(),xp=ex();
+      for(let i=0;i<n;i++)await ref.collection('parts').doc('p'+i).set({i,d:b64.slice(i*PART,(i+1)*PART),expireAt:xp});
+      await post({type:'vid',parts:n,mime:f.type||'video/mp4',exp:xp},'🎥 Video',ref);
     }else alert('Sirf photo ya video bhej sakte hain');
   }catch(err){alert('Nahi gaya: '+err.message)}
   st('');
 };
+function openSet(){$('sn').value=me.name;$('sa').value=me.about||'';$('su').textContent='@'+me.username;av($('sav'),me.name);
+  $('th').value=get('theme','auto');$('fs').value=get('fs','16');$('ex').value=get('exp','86400000');$('en').checked=get('enter','1')==='1';$('nt').checked=get('notif','0')==='1';$('set').style.display='flex'}
+$('sx').onclick=()=>$('set').style.display='none';
+$('th').onchange=e=>{put('theme',e.target.value);look()};$('fs').onchange=e=>{put('fs',e.target.value);look()};
+$('ex').onchange=e=>put('exp',e.target.value);$('en').onchange=e=>put('enter',e.target.checked?'1':'0');
+$('nt').onchange=e=>{if(!e.target.checked||!window.Notification){put('notif','0');return}Notification.requestPermission().then(p=>{put('notif',p==='granted'?'1':'0');$('nt').checked=p==='granted'})};
+$('ss').onclick=async()=>{const name=$('sn').value.trim();if(!name)return alert('Naam likho');
+  try{await db.doc('users/'+me.uid).set({name,about:$('sa').value.trim()},{merge:true});
+    const b=db.batch();chats.forEach(c=>b.update(db.doc('chats/'+c.id),{['names.'+me.uid]:name}));await b.commit();alert('Profile save ho gaya ✅')}catch(e){alert(e.message)}};
 }
 </script></body></html>
