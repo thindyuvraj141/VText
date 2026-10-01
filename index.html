@@ -65,12 +65,14 @@ header img{width:32px}header b{flex:1}
 <script src="config.js"></script>
 <script>
 const $=id=>document.getElementById(id);
+window.onerror=m=>{$('err').textContent='Error: '+m;$('go').disabled=false};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 let signup=false,me=null,chats=[],cur=null,unsubM,unsubC,unsubP;const vids=new Map();
 const TTL=864e5,PART=700000,MAXV=3*1024*1024;
 $('sw').onclick=()=>{signup=!signup;['name','un'].forEach(i=>$(i).style.display=signup?'block':'none');$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Account hai? Login':'Naya account banao';$('err').textContent=''};
 const st=t=>{$('st').textContent=t;$('st').style.display=t?'block':'none'};
-if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){$('err').textContent='Pehle config.js me Firebase config daalo (README dekho).';$('go').disabled=true}
+if(typeof firebase==='undefined'){$('err').textContent='Firebase load nahi hua. Internet/VPN/ad-blocker check karo.';$('go').disabled=true}
+else if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){$('err').textContent='Pehle config.js me Firebase config daalo (README dekho).';$('go').disabled=true}
 else{
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth=firebase.auth(),db=firebase.firestore(),TS=firebase.firestore.Timestamp;
@@ -80,12 +82,12 @@ $('go').onclick=async()=>{
   $('err').textContent='';
   if(!email||!pass||(signup&&!name)){$('err').textContent='Saari details bharo';return}
   if(signup&&!/^[a-z0-9_]{3,20}$/.test(un)){$('err').textContent='Username 3-20 akshar: a-z, 0-9, _';return}
-  $('go').disabled=true;
+  $('go').disabled=true;$('err').textContent='Ho raha hai…';
   try{
     if(signup){
       const c=await auth.createUserWithEmailAndPassword(email,pass);
-      try{const b=db.batch();b.set(db.doc('usernames/'+un),{uid:c.user.uid});b.set(db.doc('users/'+c.user.uid),{name,username:un});await b.commit()}
-      catch(e){await c.user.delete();throw{message:'Ye username pehle se kisi ne le rakha hai, dusra chuno'}}
+      try{const b=db.batch();b.set(db.doc('usernames/'+un),{uid:c.user.uid});b.set(db.doc('users/'+c.user.uid),{name,username:un});await Promise.race([b.commit(),new Promise((_,r)=>setTimeout(()=>r(Error('t')),15000))])}
+      catch(e){await c.user.delete().catch(()=>{});throw{message:e.message==='t'?'Database se connect nahi hua. Firestore database aur Rules (Publish) check karo':'Username pehle se liya hua hai ya Rules galat hain'}}
     }else await auth.signInWithEmailAndPassword(email,pass);
   }catch(e){$('err').textContent=E[e.code]||e.message}
   $('go').disabled=false;
