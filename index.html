@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi"><head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6d28d9">
@@ -64,17 +64,17 @@ input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);b
 </style></head><body>
 <div id="auth"><div class="card">
 <img src="logo.svg" alt="VText"><h1>VText</h1>
-<input id="name" placeholder="Aapka naam" style="display:none">
+<input id="name" placeholder="Your name" style="display:none">
 <input id="un" placeholder="Username (a-z, 0-9, _)" style="display:none" autocapitalize="none">
 <input id="email" type="email" placeholder="Email" autocomplete="email">
 <input id="pass" type="password" placeholder="Password (min 6)" autocomplete="current-password">
-<div id="err"></div>
+<div class="sub" id="tm" style="display:none;font-size:.8rem">By signing up you agree to our <a href="https://thindyuvraj141.github.io/VText/terms.html" target="_blank">Terms</a> and <a href="https://thindyuvraj141.github.io/VText/privacy.html" target="_blank">Privacy Policy</a>.</div><div id="err"></div>
 <button class="btn" id="go">Login</button>
-<button class="link" id="sw">Naya account banao</button><br><button class="link" id="fp" style="margin-top:0">Password bhool gaye?</button>
+<button class="link" id="sw">Create new account</button><br><button class="link" id="fp" style="margin-top:0">Forgot password?</button>
 </div></div>
 <div id="app">
 <div id="side"><div class="top w"><img src="logo.svg" alt="" style="width:34px;height:34px;border-radius:9px"><b class="g">VText</b><button class="ib" id="sb" style="display:none">🔍</button><button class="ib" id="cam"></button><button class="ib" id="mm">⋮</button><input id="cf" type="file" accept="image/*" capture="environment" hidden></div>
-<div id="sw2"><input id="search" placeholder="Search"></div><div id="chips"><span class="on" data-f="all">Sab</span><span data-f="un">Unread</span><span data-f="gr">Groups</span></div><div id="list"></div><button id="fab"></button><div id="nav"></div></div>
+<div id="sw2"><input id="search" placeholder="Search"></div><div id="chips"><span class="on" data-f="all">All</span><span data-f="un">Unread</span><span data-f="gr">Groups</span></div><div id="list"></div><button id="fab"></button><div id="nav"></div></div>
 <div id="chat"><div class="top"><button class="ib" id="back">←</button><div class="av" id="cav"></div><div class="g" id="hd" style="cursor:pointer"><b id="cname"></b><small id="cst"></small></div><button class="ib" id="cm">⋮</button></div>
 <div id="msgs"></div><div id="rp"></div><div id="emo"></div>
 <div id="bar"><div class="in"><button id="eb">😊</button><input id="txt" placeholder="Message" autocomplete="off"><button id="at" type="button">📎</button><input id="file" type="file" hidden></div><button class="rb" id="snd">🎤</button></div></div>
@@ -88,7 +88,7 @@ input,select{width:100%;padding:12px;margin:6px 0;border:1px solid var(--line);b
 <div class="ps" id="p-app"><label>App theme</label><select id="th"><option value="auto">System default</option><option value="light">Light</option><option value="dark">Dark</option></select><label>Theme colour</label><select id="tc"><option value="g">Green</option><option value="v">Violet</option><option value="b">Blue</option></select></div>
 <div class="ps" id="p-notif"><label><input type="checkbox" id="nt">Show notifications (app open)</label><label><input type="checkbox" id="sd">Message sounds</label></div>
 <div class="ps" id="p-acs"><label>Font size</label><select id="fs"><option value="14">Small</option><option value="16">Medium</option><option value="18">Large</option></select></div>
-<div class="ps" id="p-help"><p class="sub">VText · no backup, messages delete themselves.<br>Phone number ki zaroorat nahi, sirf email aur username.</p></div>
+<div class="ps" id="p-help"><p class="sub">VText · messages expire automatically.</p><a class="row" style="display:block;color:var(--txt)" href="https://thindyuvraj141.github.io/VText/privacy.html" target="_blank">Privacy Policy</a><a class="row" style="display:block;color:var(--txt)" href="https://thindyuvraj141.github.io/VText/terms.html" target="_blank">Terms &amp; community rules</a><a class="row" style="display:block;color:var(--txt)" href="https://thindyuvraj141.github.io/VText/delete-account.html" target="_blank">Delete account help</a></div>
 </div><button id="lo" style="display:none"></button></div>
 <input id="pf" type="file" accept="image/*" hidden><div id="sheet"></div><div id="vw"><img alt=""></div><div id="st"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -113,7 +113,7 @@ const PAL={g:['#0b7a62','#0fa57f','#d6f5e3','#0b5d49'],v:['#6d28d9','#7c3aed','#
 function look(){const t=get('theme','auto'),d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches),p=PAL[get('tc','g')]||PAL.g,r=document.documentElement,y=r.style;r.classList.toggle('dk',d);y.fontSize=get('fs','16')+'px';y.setProperty('--top',d?'#1f2c34':p[0]);y.setProperty('--acc',p[1]);y.setProperty('--me',d?p[3]:p[2]);y.setProperty('--pill',d?p[3]:p[2]);$('msgs').style.backgroundColor=get('wp','')}look();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 let tab='chats',pt='me',fl='all',showArc=false,lsg='',qs='',first=true,signup=false,me=null,chats=[],cur=null,peer=null,docs=[],reply=null,unsubM,unsubC,unsubP,unsubS,rec=null,chunks=[],rt;const vids=new Map(),PART=700000,MAXV=3*1024*1024;
-$('sw').onclick=()=>{signup=!signup;['name','un'].forEach(i=>$(i).style.display=signup?'block':'none');$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Account hai? Login':'Naya account banao';$('err').textContent=''};
+$('sw').onclick=()=>{signup=!signup;['name','un'].forEach(i=>$(i).style.display=signup?'block':'none');$('tm').style.display=signup?'block':'none';$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Have an account? Log in':'Create new account';$('err').textContent=''};
 const st=t=>{$('st').textContent=t;$('st').style.display=t?'block':'none'};
 const hm=d=>d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),M=t=>t&&t.toMillis?t.toMillis():0;
 const day=d=>{const n=new Date(),y=new Date(Date.now()-864e5);return d.toDateString()===n.toDateString()?'Aaj':d.toDateString()===y.toDateString()?'Kal':d.toLocaleDateString()};
@@ -129,36 +129,41 @@ const stars=()=>{try{return JSON.parse(get('stars','[]'))}catch(e){return []}};
 const lset=k=>{try{return new Set(JSON.parse(get(k,'[]')))}catch(e){return new Set()}},tog=(k,v)=>{const q=lset(k);q.has(v)?q.delete(v):q.add(v);put(k,JSON.stringify([...q]));return q.has(v)};
 function linkify(e,t){t.split(/(https?:\/\/\S+)/g).forEach(p=>{if(/^https?:\/\//.test(p)){const a=document.createElement('a');a.href=p;a.target='_blank';a.rel='noopener';a.textContent=p;a.style.color='var(--acc)';a.onclick=ev=>ev.stopPropagation();e.appendChild(a)}else e.appendChild(document.createTextNode(p))})}
 function beep(){if(get('snd','1')!=='1')return;try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.08;o.start();o.stop(a.currentTime+.12)}catch(e){}}
-if(typeof firebase==='undefined'){$('err').textContent='Firebase load nahi hua. Internet/VPN/ad-blocker check karo.';$('go').disabled=true}
-else if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){$('err').textContent='Firebase config nahi mila.';$('go').disabled=true}
+if(typeof firebase==='undefined'){$('err').textContent='Firebase failed to load. Check your internet, VPN or ad-blocker.';$('go').disabled=true}
+else if(!window.FIREBASE_CONFIG||FIREBASE_CONFIG.apiKey==='YOUR_API_KEY'){$('err').textContent='Firebase config not found.';$('go').disabled=true}
 else{
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth=firebase.auth(),db=firebase.firestore(),TS=firebase.firestore.Timestamp,SV=()=>firebase.firestore.FieldValue.serverTimestamp(),ex=()=>TS.fromMillis(Date.now()+ +((cur&&cur.exp)||get('exp','86400000')));
-const E={'auth/invalid-credential':'Email ya password galat hai','auth/email-already-in-use':'Ye email pehle se registered hai','auth/weak-password':'Password kam se kam 6 akshar ka rakho','auth/invalid-email':'Email sahi nahi hai'};
+try{db.settings({experimentalAutoDetectLongPolling:true})}catch(e){}
+const E={'auth/invalid-credential':'Wrong email or password','auth/email-already-in-use':'This email is already registered','auth/weak-password':'Password must be at least 6 characters','auth/invalid-email':'Invalid email address'};
 $('go').onclick=async()=>{
   const email=$('email').value.trim(),pass=$('pass').value,name=$('name').value.trim(),un=$('un').value.trim().toLowerCase();
   $('err').textContent='';
   if(!email||!pass||(signup&&!name)){$('err').textContent='Saari details bharo';return}
-  if(signup&&!/^[a-z0-9_]{3,20}$/.test(un)){$('err').textContent='Username 3-20 akshar: a-z, 0-9, _';return}
-  $('go').disabled=true;$('err').textContent='Ho raha hai…';
+  if(signup&&!/^[a-z0-9_]{3,20}$/.test(un)){$('err').textContent='Username must be 3-20 characters: a-z, 0-9, _';return}
+  $('go').disabled=true;$('err').textContent='Please wait…';
   try{
     if(signup){
       const c=await auth.createUserWithEmailAndPassword(email,pass);
       try{const b=db.batch();b.set(db.doc('usernames/'+un),{uid:c.user.uid});b.set(db.doc('users/'+c.user.uid),{name,username:un});await Promise.race([b.commit(),new Promise((_,r)=>setTimeout(()=>r(Error('t')),15000))])}
-      catch(e){await c.user.delete().catch(()=>{});throw{message:e.message==='t'?'Database se connect nahi hua. Firestore database aur Rules (Publish) check karo':'Username pehle se liya hua hai ya Rules galat hain'}}
-    }else await auth.signInWithEmailAndPassword(email,pass);
+      catch(e){await c.user.delete().catch(()=>{});throw{message:e.message==='t'?'Couldn’t connect to the database. Check that Firestore is created and the rules are published.':'Username already taken, or the rules are wrong'}}
+    }else await auth.signInWithEmailAndPassword(email,pass);$('err').textContent='';
   }catch(e){$('err').textContent=E[e.code]||e.message}
   $('go').disabled=false;
 };
-$('fp').onclick=()=>{const em=$('email').value.trim();if(!em){$('err').textContent='Pehle email likho';return}auth.sendPasswordResetEmail(em).then(()=>$('err').textContent='Reset email bhej diya (spam folder bhi dekho)').catch(e=>$('err').textContent=E[e.code]||e.message)};
+$('fp').onclick=()=>{const em=$('email').value.trim();if(!em){$('err').textContent='Enter your email first';return}auth.sendPasswordResetEmail(em).then(()=>$('err').textContent='Reset email sent (check spam too)').catch(e=>$('err').textContent=E[e.code]||e.message)};
 const logout=()=>auth.signOut();$('lo').onclick=()=>{$('set').style.display='none';logout()};
 function stop(){[unsubM,unsubC,unsubP,unsubS].forEach(f=>f&&f());unsubM=unsubC=unsubP=unsubS=null;cur=null;chats=[];vids.clear()}
 const beat=()=>me&&!me.hideSeen&&db.doc('users/'+me.uid).set({seen:SV()},{merge:true}).catch(()=>{});setInterval(beat,6e4);
 auth.onAuthStateChanged(u=>{
   stop();me=null;
   if(!u){$('app').style.display='none';$('auth').style.display='flex';return}
-  unsubP=db.doc('users/'+u.uid).onSnapshot(s=>{if(!s.exists)return;const f=!me;me={uid:u.uid,...s.data()};if(f)start()});
+  let asked=false;setTimeout(()=>{if(!me&&auth.currentUser&&$('auth').style.display!=='none')$('err').textContent='Couldn’t load your profile. Check your internet and Firestore rules, then log in again.'},10000);
+  unsubP=db.doc('users/'+u.uid).onSnapshot(s=>{if(!s.exists){if(!asked){asked=true;mkProfile(u)}return}const f=!me;me={uid:u.uid,...s.data()};if(f)start()});
 });
+async function mkProfile(u){const name=(prompt('Your name')||'').trim(),un=clean(prompt('Choose a username (a-z, 0-9, _)')||'');
+  if(!name||!/^[a-z0-9_]{3,20}$/.test(un)){$('err').textContent='A name and a valid username are required. Please log in again.';return}
+  try{const b=db.batch();b.set(db.doc('usernames/'+un),{uid:u.uid});b.set(db.doc('users/'+u.uid),{name,username:un});await b.commit()}catch(e){$('err').textContent='That username is taken. Log in again and choose another.'}}
 const title=c=>c.type==='group'?c.name:(c.names[c.members.find(x=>x!==me.uid)]||'User'),cp=c=>c.type==='group'?c.photo:(c.photos||{})[c.members.find(x=>x!==me.uid)];
 function start(){
   $('auth').style.display='none';$('app').style.display='flex';$('app').classList.remove('open');beat();
@@ -170,15 +175,15 @@ function start(){
     chats=q.docs.map(d=>({id:d.id,...d.data({serverTimestamps:'estimate'})}));
     if(cur){const n=chats.find(c=>c.id===cur.id);if(n){const sg=JSON.stringify([n.seen,n.deliv,n.exp,n.admins]);cur=n;$('cname').textContent=title(n);av($('cav'),title(n),n.type==='group',cp(n));stat();if(sg!==lsg){lsg=sg;renderM()}}}
     renderList();
-  },()=>{$('list').innerHTML='<div class="empty">Chats load nahi hue. Firestore rules check karo.</div>'});
+  },()=>{$('list').innerHTML='<div class="empty">Couldn’t load chats. Check Firestore rules.</div>'});
 }
 function renderList(){
-  const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';if(tab!=='chats'){l.innerHTML='<div class="empty">'+({upd:'Updates (Status)',com:'Communities',calls:'Voice / video calls'}[tab])+' VText mein abhi available nahi hai.</div>';return}
+  const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';if(tab!=='chats'){l.innerHTML='<div class="empty">'+({upd:'Updates (Status)',com:'Communities',calls:'Voice / video calls'}[tab])+' – not available in VText yet.</div>';return}
   const pn=lset('pin'),mu=lset('mut');const f=chats.filter(c=>title(c).toLowerCase().includes(q)&&lset('arc').has(c.id)===showArc&&(fl==='all'||(fl==='gr'?c.type==='group':c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid])))).sort((a,b)=>(pn.has(b.id)-pn.has(a.id))||M(b.lastTs)-M(a.lastTs));
-  if(!f.length){l.innerHTML='<div class="empty">Koi chat nahi.<br>💬 dabake username se dost add karo ya group banao.</div>';return}
+  if(!f.length){l.innerHTML='<div class="empty">No chats yet.<br>Tap 💬 to add a friend by username or create a group.</div>';return}
   f.forEach(c=>{const d=document.createElement('div');d.className='u';
     const a=document.createElement('div');a.className='av';av(a,title(c),c.type==='group',cp(c));
-    const t=document.createElement('div');t.className='t';const n=document.createElement('b');n.textContent=(pn.has(c.id)?'📌 ':'')+title(c)+(mu.has(c.id)?' 🔇':'');const p=document.createElement('div');p.textContent=(c.lastFrom===me.uid?'✓ ':'')+(c.last||'Naya chat');t.append(n,p);
+    const t=document.createElement('div');t.className='t';const n=document.createElement('b');n.textContent=(pn.has(c.id)?'📌 ':'')+title(c)+(mu.has(c.id)?' 🔇':'');const p=document.createElement('div');p.textContent=(c.lastFrom===me.uid?'✓ ':'')+(c.last||'New chat');t.append(n,p);
     const r=document.createElement('div');r.className='r';r.textContent=c.lastTs?hm(c.lastTs.toDate()):'';
     const un=c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid])&&!(cur&&cur.id===c.id);
     if(un){const o=document.createElement('div');o.className='dot';r.appendChild(o);n.style.fontWeight='800'}
@@ -186,20 +191,20 @@ function renderList(){
 }
 $('search').oninput=renderList;$('sb').onclick=()=>{const s=$('search');s.style.display=s.style.display==='block'?'none':'block';if(s.style.display==='block')s.focus();else{s.value='';renderList()}};
 const clean=x=>x.trim().toLowerCase().replace(/^@/,'');
-async function find(un){const u=await db.doc('usernames/'+un).get();if(!u.exists)throw Error('@'+un+' nahi mila');const uid=u.data().uid;const o=(await db.doc('users/'+uid).get()).data();return{uid,name:o.name,photo:o.photo}}
+async function find(un){const u=await db.doc('usernames/'+un).get();if(!u.exists)throw Error('@'+un+' not found');const uid=u.data().uid;const o=(await db.doc('users/'+uid).get()).data();return{uid,name:o.name,photo:o.photo}}
 async function addC(){
-  const un=clean(prompt('Dost ka username likho')||'');if(!un)return;
-  try{const o=await find(un);if(o.uid===me.uid)return alert('Ye aapka apna username hai');
+  const un=clean(prompt('Enter your friend’s username')||'');if(!un)return;
+  try{const o=await find(un);if(o.uid===me.uid)return alert('That’s your own username');
     const id=[me.uid,o.uid].sort().join('_'),ex2=chats.find(c=>c.id===id);if(ex2)return openChat(ex2);
     const c={type:'dm',members:[me.uid,o.uid],names:{[me.uid]:me.name,[o.uid]:o.name},photos:{...(me.photo?{[me.uid]:me.photo}:{}),...(o.photo?{[o.uid]:o.photo}:{})}};await db.doc('chats/'+id).set(c);openChat({id,...c});
   }catch(e){alert(e.message)}
 }
 async function newG(){
-  const name=(prompt('Group ka naam')||'').trim();if(!name)return;
-  const list=(prompt('Members ke username, comma se alag (apna nahi likhna)')||'').split(',').map(clean).filter(Boolean);
+  const name=(prompt('Group name')||'').trim();if(!name)return;
+  const list=(prompt('Member usernames, separated by commas (not yours)')||'').split(',').map(clean).filter(Boolean);
   try{const members=[me.uid],names={[me.uid]:me.name};
     for(const un of new Set(list)){const o=await find(un);if(!members.includes(o.uid)){members.push(o.uid);names[o.uid]=o.name}}
-    if(members.length<2)return alert('Kam se kam 1 member chahiye');
+    if(members.length<2)return alert('Add at least 1 member');
     const ref=db.collection('chats').doc(),c={type:'group',name:name.slice(0,40),members,names,admins:[me.uid]};await ref.set(c);openChat({id:ref.id,...c});
   }catch(e){alert(e.message)}
 }
@@ -215,7 +220,7 @@ function openChat(c){
   $('cname').textContent=title(c);av($('cav'),title(c),c.type==='group',cp(c));$('cst').textContent='';$('emo').style.display='none';
   $('app').classList.add('open');$('msgs').innerHTML='';renderList();
   if(c.type==='dm')unsubS=db.doc('users/'+c.members.find(x=>x!==me.uid)).onSnapshot(s=>{peer=s.data({serverTimestamps:'estimate'});stat()});else stat();
-  unsubM=col2().orderBy('ts').limitToLast(50).onSnapshot(s=>{if(!first&&s.docChanges().some(c=>c.type==='added'&&!c.doc.metadata.hasPendingWrites&&c.doc.data().from!==me.uid))beep();first=false;docs=s.docs.map(d=>({id:d.id,...d.data({serverTimestamps:'estimate'})}));renderM();seen()},()=>{$('msgs').innerHTML='<div class="empty">Messages load nahi hue. Firestore rules check karo.</div>'});
+  unsubM=col2().orderBy('ts').limitToLast(50).onSnapshot(s=>{if(!first&&s.docChanges().some(c=>c.type==='added'&&!c.doc.metadata.hasPendingWrites&&c.doc.data().from!==me.uid))beep();first=false;docs=s.docs.map(d=>({id:d.id,...d.data({serverTimestamps:'estimate'})}));docs.forEach(x=>{if(x.from===me.uid&&x.expireAt&&M(x.expireAt)<Date.now())col2().doc(x.id).delete().catch(()=>{})});renderM();seen()},()=>{$('msgs').innerHTML='<div class="empty">Couldn’t load messages. Check Firestore rules.</div>'});
 }
 function seen(){if(!cur||!docs.length||get('rr','1')==='0')return;const l=docs[docs.length-1];if(l.from===me.uid||!l.ts)return;if(M(cur.seen&&cur.seen[me.uid])>=M(l.ts))return;db.doc('chats/'+cur.id).update({['seen.'+me.uid]:SV()}).catch(()=>{})}
 const prev=x=>x.type==='img'?'📷 Photo':x.type==='vid'?'🎥 Video':x.type==='aud'?'🎤 Voice':x.type==='loc'?'📍 Location':x.type==='doc'?'📄 '+(x.fname||'File'):(x.text||'').slice(0,60);
@@ -230,46 +235,47 @@ function renderM(){
     if(x.reply){const q=document.createElement('div');q.className='q';q.textContent=x.reply.n+': '+x.reply.t;e.appendChild(q)}
     if(x.type==='img'){const i=document.createElement('img');i.src=x.data;i.onclick=ev=>{ev.stopPropagation();$('vw').firstChild.src=x.data;$('vw').style.display='flex'};e.appendChild(i)}
     else if(x.type==='doc'){const a=document.createElement('a');if(/^data:/.test(x.data||'')){a.href=x.data;a.download=x.fname||'file'}a.textContent='📄 '+(x.fname||'File')+' ('+Math.round((x.size||0)/1024)+' KB)';a.style.color='var(--acc)';a.onclick=ev=>ev.stopPropagation();e.appendChild(a)}
-    else if(x.type==='loc'){const a=document.createElement('a');a.href='https://www.google.com/maps?q='+(+x.lat)+','+(+x.lng);a.target='_blank';a.rel='noopener';a.textContent='📍 Location dekho';a.style.color='var(--acc)';a.onclick=ev=>ev.stopPropagation();e.appendChild(a)}
+    else if(x.type==='loc'){const a=document.createElement('a');a.href='https://www.google.com/maps?q='+(+x.lat)+','+(+x.lng);a.target='_blank';a.rel='noopener';a.textContent='📍 View location';a.style.color='var(--acc)';a.onclick=ev=>ev.stopPropagation();e.appendChild(a)}
     else if(x.type==='aud'){const a=document.createElement('audio');a.src=x.data;a.controls=true;a.onclick=ev=>ev.stopPropagation();e.appendChild(a)}
-    else if(x.type==='vid'){if(vids.has(x.id)){const v=vplayer(vids.get(x.id));v.onclick=ev=>ev.stopPropagation();e.appendChild(v)}else{const b=document.createElement('button');b.className='vb';b.textContent='▶ Video dekho';b.onclick=ev=>{ev.stopPropagation();loadVid(x.id,x,b)};e.appendChild(b)}}
+    else if(x.type==='vid'){if(vids.has(x.id)){const v=vplayer(vids.get(x.id));v.onclick=ev=>ev.stopPropagation();e.appendChild(v)}else{const b=document.createElement('button');b.className='vb';b.textContent='▶ Play video';b.onclick=ev=>{ev.stopPropagation();loadVid(x.id,x,b)};e.appendChild(b)}}
     else linkify(e,x.text||'');
     const rv=Object.values(x.rx||{});if(rv.length){const q=document.createElement('div');q.className='rx';q.textContent=rv.join(' ');e.appendChild(q)}
     const s=document.createElement('small'),rd=mine&&o&&M(o)>=M(x.ts),dl=mine&&dv&&M(dv)>=M(x.ts);s.textContent=(stars().some(z=>z.id===x.id)?'⭐ ':'')+(x.edited?'edited · ':'')+hm(t)+(mine?(rd||dl?' ✓✓':' ✓'):'');if(rd)s.className='bl';e.appendChild(s);
     e.onclick=()=>msgMenu(x);box.appendChild(e)});
-  if(!n)box.innerHTML='<div class="empty">Abhi koi message nahi. Hi bolo 👋<br><small>Messages khud delete ho jaate hain (Settings me time badlo).</small></div>';
+  if(!n)box.innerHTML='<div class="empty">No messages yet. Say hi 👋<br><small>Messages delete themselves automatically (change the time in Settings).</small></div>';
   if(keep)box.scrollTop=box.scrollHeight;
 }
 function msgMenu(x){const r=[[['👍','❤️','😂','😮','😢','🙏'],em=>col2().doc(x.id).update({['rx.'+me.uid]:x.rx&&x.rx[me.uid]===em?firebase.firestore.FieldValue.delete():em}).catch(e=>alert(e.message))],['Reply',()=>{reply={n:x.fromName||'User',t:prev(x)};rp();$('txt').focus()}]];
   if(x.text)r.push(['Copy',()=>navigator.clipboard&&navigator.clipboard.writeText(x.text)]);
   const sa=stars(),on=sa.some(z=>z.id===x.id);r.push([on?'Unstar':'Star',()=>{put('stars',JSON.stringify(on?sa.filter(z=>z.id!==x.id):sa.concat([{id:x.id,n:x.fromName||'User',t:prev(x),c:title(cur)}]).slice(-100)));renderM()}]);
   if(x.type!=='vid')r.push(['Forward',()=>fwd(x)]);
-  if(x.from===me.uid&&x.type==='text')r.push(['Edit',()=>{const t=prompt('Message edit karo',x.text);if(t&&t.trim()&&t.trim()!==x.text)col2().doc(x.id).update({text:t.trim().slice(0,2000),edited:true}).catch(e=>alert(e.message))}]);
+  if(x.from===me.uid&&x.type==='text')r.push(['Edit',()=>{const t=prompt('Edit message',x.text);if(t&&t.trim()&&t.trim()!==x.text)col2().doc(x.id).update({text:t.trim().slice(0,2000),edited:true}).catch(e=>alert(e.message))}]);
+  if(x.from!==me.uid)r.push(['Report',()=>reportIt(x.from,x.id,prev(x))]);
   r.push(['Delete for me',()=>{tog('hid',x.id);renderM()}]);
   if(x.from===me.uid)r.push(['Delete for everyone',()=>col2().doc(x.id).delete().catch(e=>alert(e.message))]);sheet(r)}
 function rp(){const b=$('rp');if(!reply){b.style.display='none';return}b.style.display='block';b.textContent='↩ '+reply.n+': '+reply.t+'   ✕';b.onclick=()=>{reply=null;rp()}}
 function vplayer(u){const v=document.createElement('video');v.src=u;v.controls=true;v.playsInline=true;return v}
 async function loadVid(id,m,b){
-  b.textContent='Load ho raha hai…';
+  b.textContent='Loading…';
   try{const s=await db.collection(`chats/${cur.id}/messages/${id}/parts`).orderBy('i').get();
     if(s.size!==m.parts)throw Error('x');
     const arr=s.docs.map(x=>Uint8Array.from(atob(x.data().d),c=>c.charCodeAt(0)));
     vids.set(id,URL.createObjectURL(new Blob(arr,{type:m.mime||'video/mp4'})));renderM();
-  }catch(e){b.textContent='Video load nahi hua'}
+  }catch(e){b.textContent='Couldn’t load video'}
 }
 $('back').onclick=()=>{$('app').classList.remove('open');unsubM&&unsubM();unsubS&&unsubS();unsubM=unsubS=null;cur=null;renderList()};
 $('hd').onclick=()=>{if(!cur)return;if(cur.type==='group')sheet([['👥 '+cur.name]].concat(cur.members.map(u=>['• '+(cur.names[u]||'User')+((cur.admins||[]).includes(u)?' (admin)':''),(cur.admins||[]).includes(me.uid)&&u!==me.uid?()=>memM(u):null])));else if(peer)sheet([['👤 '+title(cur)],['@'+peer.username],['About: '+(peer.about||'—')]])};
 $('cm').onclick=()=>{if(!cur)return;const id=cur.id,g=cur.type==='group',ad=g&&(cur.admins||[]).includes(me.uid),o=g?null:cur.members.find(x=>x!==me.uid);
   const r=[[g?'Group info':'View contact',()=>$('hd').onclick()],['Search',()=>{qs=(prompt('Search')||'').toLowerCase();renderM()}],[lset('mut').has(id)?'Unmute notifications':'Mute notifications',()=>{tog('mut',id);renderList()}],['Disappearing messages',timerM],[lset('pin').has(id)?'Unpin chat':'Pin chat',()=>{tog('pin',id);renderList()}],[lset('arc').has(id)?'Unarchive chat':'Archive chat',()=>{tog('arc',id);renderList()}],
-  ['More…',()=>{const m=[['Clear chat',()=>{put('clr_'+id,Date.now());renderM()}]];if(g){if(ad)m.push(['Add participants',addM],['Change group name',renG],['Change group photo',()=>{pt='g';$('pf').click()}]);m.push(['Exit group',leaveG])}else m.push([lset('blk').has(o)?'Unblock':'Block',()=>{tog('blk',o);renderM()}]);sheet(m,'pop')}]];
+  ['More…',()=>{const m=[['Clear chat',()=>{put('clr_'+id,Date.now());renderM()}]];if(g){if(ad)m.push(['Add participants',addM],['Change group name',renG],['Change group photo',()=>{pt='g';$('pf').click()}]);m.push(['Exit group',leaveG])}else m.push([lset('blk').has(o)?'Unblock':'Block',()=>{tog('blk',o);renderM()}],['Report',()=>reportIt(o)]);sheet(m,'pop')}]];
   if(qs)r.unshift(['Clear search',()=>{qs='';renderM()}]);sheet(r,'pop')};
-async function renG(){const n=(prompt('Naya naam',cur.name)||'').trim();if(n)db.doc('chats/'+cur.id).update({name:n.slice(0,40)}).catch(e=>alert(e.message))}
-async function addM(){const un=clean(prompt('Naye member ka username')||'');if(!un)return;try{const o=await find(un);if(cur.members.includes(o.uid))return alert('Ye pehle se group me hai');await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayUnion(o.uid),['names.'+o.uid]:o.name});alert(o.name+' add ho gaya ✅')}catch(e){alert(e.message)}}
-async function leaveG(){if(!confirm('Group chhodna hai?'))return;try{await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayRemove(me.uid)});$('back').onclick()}catch(e){alert(e.message)}}
-function fwd(x){const r=chats.filter(c=>c.id!==cur.id).map(c=>['→ '+title(c),async()=>{try{const b={from:me.uid,fromName:me.name,ts:SV(),expireAt:ex(),type:x.type,fwd:true};if(x.text)b.text=x.text;if(x.data)b.data=x.data;if(x.fname)b.fname=x.fname;if(x.size)b.size=x.size;if(x.lat!=null){b.lat=x.lat;b.lng=x.lng}await db.collection('chats/'+c.id+'/messages').add(b);await db.doc('chats/'+c.id).update({last:prev(x),lastTs:SV(),lastFrom:me.uid});st('Forward ho gaya ✅');setTimeout(()=>st(''),1500)}catch(e){alert(e.message)}}]);sheet(r.length?r:[['Koi dusri chat nahi hai']])}
+async function renG(){const n=(prompt('New name',cur.name)||'').trim();if(n)db.doc('chats/'+cur.id).update({name:n.slice(0,40)}).catch(e=>alert(e.message))}
+async function addM(){const un=clean(prompt('New member’s username')||'');if(!un)return;try{const o=await find(un);if(cur.members.includes(o.uid))return alert('Already in the group');await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayUnion(o.uid),['names.'+o.uid]:o.name});alert(o.name+' added ✅')}catch(e){alert(e.message)}}
+async function leaveG(){if(!confirm('Exit this group?'))return;try{await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayRemove(me.uid)});$('back').onclick()}catch(e){alert(e.message)}}
+function fwd(x){const r=chats.filter(c=>c.id!==cur.id).map(c=>['→ '+title(c),async()=>{try{const b={from:me.uid,fromName:me.name,ts:SV(),expireAt:ex(),type:x.type,fwd:true};if(x.text)b.text=x.text;if(x.data)b.data=x.data;if(x.fname)b.fname=x.fname;if(x.size)b.size=x.size;if(x.lat!=null){b.lat=x.lat;b.lng=x.lng}await db.collection('chats/'+c.id+'/messages').add(b);await db.doc('chats/'+c.id).update({last:prev(x),lastTs:SV(),lastFrom:me.uid});st('Forwarded ✅');setTimeout(()=>st(''),1500)}catch(e){alert(e.message)}}]);sheet(r.length?r:[['No other chats']])}
 async function post(x,p,ref){const c=cur;ref=ref||col2().doc();const b={from:me.uid,fromName:me.name,ts:SV(),expireAt:x.exp||ex(),...x};delete b.exp;if(reply)b.reply=reply;reply=null;rp();await ref.set(b);db.doc('chats/'+c.id).update({last:p,lastTs:SV(),lastFrom:me.uid}).catch(()=>{})}
 const mic=()=>{if(!rec){$('snd').textContent=$('txt').value.trim()?'➤':'🎤'}};
-async function sendT(){const t=$('txt').value.trim();if(!t||!cur)return;if(cur.type==='dm'&&lset('blk').has(cur.members.find(x=>x!==me.uid)))return alert('Ye contact blocked hai, pehle unblock karo');$('txt').value='';mic();try{await post({type:'text',text:t.slice(0,2000)},t.slice(0,40))}catch(e){alert('Message nahi gaya: '+e.message)}}
+async function sendT(){const t=$('txt').value.trim();if(!t||!cur)return;if(cur.type==='dm'&&lset('blk').has(cur.members.find(x=>x!==me.uid)))return alert('This contact is blocked. Unblock first.');$('txt').value='';mic();try{await post({type:'text',text:t.slice(0,2000)},t.slice(0,40))}catch(e){alert('Message not sent: '+e.message)}}
 async function recT(){
   if(rec){rec.stop();return}
   if(!cur)return;
@@ -277,9 +283,9 @@ async function recT(){
     r.ondataavailable=e=>chunks.push(e.data);
     r.onstop=async()=>{clearTimeout(rt);s.getTracks().forEach(t=>t.stop());const bl=new Blob(chunks,{type:r.mimeType});rec=null;$('snd').classList.remove('rc');mic();
       if(!bl.size)return;const d=await new Promise(z=>{const f=new FileReader();f.onload=()=>z(f.result);f.readAsDataURL(bl)});
-      if(d.length>900000)return alert('Voice bahut lambi hai');st('Voice bhej rahe hain…');try{await post({type:'aud',data:d},'🎤 Voice')}catch(e){alert(e.message)}st('')};
+      if(d.length>900000)return alert('Voice message is too long');st('Sending voice message…');try{await post({type:'aud',data:d},'🎤 Voice')}catch(e){alert(e.message)}st('')};
     r.start();$('snd').textContent='⏹';$('snd').classList.add('rc');rt=setTimeout(()=>rec&&rec.stop(),60000);
-  }catch(e){alert('Mic permission nahi mili')}
+  }catch(e){alert('Microphone permission denied')}
 }
 $('snd').onclick=()=>$('txt').value.trim()?sendT():recT();
 let lt=0;const typ=()=>{if(!cur||Date.now()-lt<3000)return;lt=Date.now();db.doc('chats/'+cur.id).update({['typing.'+me.uid]:SV()}).catch(()=>{})};
@@ -290,20 +296,20 @@ $('eb').onclick=()=>{const e=$('emo');e.style.display=e.style.display==='flex'?'
 function compress(f){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{
   let k=Math.min(1,1000/Math.max(im.width,im.height)),w=im.width*k,h=im.height*k,q=.75,o;const cv=document.createElement('canvas');
   for(let t=0;t<6;t++){cv.width=Math.round(w);cv.height=Math.round(h);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);o=cv.toDataURL('image/jpeg',q);if(o.length<800000)break;w*=.8;h*=.8;q-=.08}
-  o.length<900000?res(o):rej(Error('Photo bahut badi hai'))};im.onerror=()=>rej(Error('Photo padh nahi paye'));im.src=URL.createObjectURL(f)})}
+  o.length<900000?res(o):rej(Error('Photo is too large'))};im.onerror=()=>rej(Error('Couldn’t read the photo'));im.src=URL.createObjectURL(f)})}
 $('file').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f||!cur)return;
   try{
-    if(f.type.startsWith('image/')){st('Photo bhej rahe hain…');await post({type:'img',data:await compress(f)},'📷 Photo')}
+    if(f.type.startsWith('image/')){st('Sending photo…');await post({type:'img',data:await compress(f)},'📷 Photo')}
     else if(f.type.startsWith('video/')){
-      if(f.size>MAXV)return alert('Video 3MB se chhota rakho (lagbhag 10-15 second)');
-      st('Video bhej rahe hain…');
+      if(f.size>MAXV)return alert('Video must be under 3 MB (about 10-15 seconds)');
+      st('Sending video…');
       const url=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});
       const b64=url.split(',')[1],n=Math.ceil(b64.length/PART),ref=col2().doc(),xp=ex();
       for(let i=0;i<n;i++)await ref.collection('parts').doc('p'+i).set({i,d:b64.slice(i*PART,(i+1)*PART),expireAt:xp});
       await post({type:'vid',parts:n,mime:f.type||'video/mp4',exp:xp},'🎥 Video',ref);
-    }else{if(f.size>600000)return alert('Document 600KB se chhota rakho');st('Document bhej rahe hain…');const d=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});await post({type:'doc',data:d,fname:f.name.slice(0,80),size:f.size},'📄 '+f.name.slice(0,30))}
-  }catch(err){alert('Nahi gaya: '+err.message)}
+    }else{if(f.size>600000)return alert('Document must be under 600 KB');st('Sending document…');const d=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)});await post({type:'doc',data:d,fname:f.name.slice(0,80),size:f.size},'📄 '+f.name.slice(0,30))}
+  }catch(err){alert('Failed: '+err.message)}
   st('');
 };
 function openSet(){$('sn').value=me.name;$('sa').value=me.about||'';$('su').textContent='@'+me.username;av($('sav'),me.name,false,me.photo);
@@ -314,34 +320,35 @@ let cp2=null;
 function openP(p,t){cp2=p;$('sm').style.display='none';document.querySelectorAll('.ps').forEach(x=>x.style.display=x.id==='p-'+p?'block':'none');$('stt').textContent=t}
 function closeP(){cp2=null;$('sm').style.display='block';document.querySelectorAll('.ps').forEach(x=>x.style.display='none');$('stt').textContent='Settings'}
 $('sx').onclick=()=>{if(cp2)closeP();else $('set').style.display='none'};$('spe').onclick=()=>openP('prof','Edit profile');
-$('rows').onclick=e=>{const r=e.target.closest('[data-p]');if(!r)return;const p=r.dataset.p;if(p==='inv'){const u=location.origin+location.pathname;return navigator.share?navigator.share({title:'VText',text:'VText par chat karo',url:u}).catch(()=>{}):prompt('Link copy karo',u)}if(p==='out'){$('set').style.display='none';return logout()}openP(p,r.dataset.t)};
+$('rows').onclick=e=>{const r=e.target.closest('[data-p]');if(!r)return;const p=r.dataset.p;if(p==='inv'){const u=location.origin+location.pathname;return navigator.share?navigator.share({title:'VText',text:'Chat with me on VText',url:u}).catch(()=>{}):prompt('Copy this link',u)}if(p==='out'){$('set').style.display='none';return logout()}openP(p,r.dataset.t)};
 $('th').onchange=e=>{put('theme',e.target.value);look()};$('fs').onchange=e=>{put('fs',e.target.value);look()};
 $('ex').onchange=e=>put('exp',e.target.value);$('en').onchange=e=>put('enter',e.target.checked?'1':'0');
 $('nt').onchange=e=>{if(!e.target.checked||!window.Notification){put('notif','0');return}Notification.requestPermission().then(p=>{put('notif',p==='granted'?'1':'0');$('nt').checked=p==='granted'})};
-$('ss').onclick=async()=>{const name=$('sn').value.trim();if(!name)return alert('Naam likho');
+$('ss').onclick=async()=>{const name=$('sn').value.trim();if(!name)return alert('Enter a name');
   try{await db.doc('users/'+me.uid).set({name,about:$('sa').value.trim()},{merge:true});
-    const b=db.batch();chats.forEach(c=>b.update(db.doc('chats/'+c.id),{['names.'+me.uid]:name}));await b.commit();alert('Profile save ho gaya ✅')}catch(e){alert(e.message)}};
+    const b=db.batch();chats.forEach(c=>b.update(db.doc('chats/'+c.id),{['names.'+me.uid]:name}));await b.commit();alert('Profile saved ✅')}catch(e){alert(e.message)}};
 $('tc').onchange=e=>{put('tc',e.target.value);look()};
 $('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.n;[...$('nav').children].forEach(x=>x.classList.toggle('on',x===b));$('fab').style.display=$('sw2').style.display=tab==='chats'?'':'none';renderList()};
 $('wp').onchange=e=>{put('wp',e.target.value);look()};$('sd').onchange=e=>put('snd',e.target.checked?'1':'0');$('rr').onchange=e=>put('rr',e.target.checked?'1':'0');
 $('hs').onchange=e=>db.doc('users/'+me.uid).set({hideSeen:e.target.checked},{merge:true});
-$('pw').onclick=()=>auth.sendPasswordResetEmail(auth.currentUser.email).then(()=>alert('Reset email bhej diya')).catch(e=>alert(e.message));
-$('bk').onclick=()=>{const b=lset('blk'),r=[];chats.forEach(c=>{if(c.type==='dm'){const o=c.members.find(x=>x!==me.uid);if(b.has(o))r.push(['✅ Unblock: '+title(c),()=>tog('blk',o)])}});sheet(r.length?r:[['Koi blocked contact nahi']])};
-$('da').onclick=async()=>{if(!confirm('Account hamesha ke liye delete ho jayega. Pakka?'))return;const pw=prompt('Confirm karne ke liye apna password likho');if(!pw)return;
-  try{const u=auth.currentUser;await u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email,pw));const b=db.batch();b.delete(db.doc('users/'+me.uid));b.delete(db.doc('usernames/'+me.username));await b.commit();await u.delete();$('set').style.display='none'}catch(e){alert(E[e.code]||'Password galat hai ya error: '+e.message)}};
+$('pw').onclick=()=>auth.sendPasswordResetEmail(auth.currentUser.email).then(()=>alert('Reset email sent')).catch(e=>alert(e.message));
+$('bk').onclick=()=>{const b=lset('blk'),r=[];chats.forEach(c=>{if(c.type==='dm'){const o=c.members.find(x=>x!==me.uid);if(b.has(o))r.push(['✅ Unblock: '+title(c),()=>tog('blk',o)])}});sheet(r.length?r:[['No blocked contacts']])};
+$('da').onclick=async()=>{if(!confirm('Your account will be deleted permanently. Are you sure?'))return;const pw=prompt('Enter your password to confirm');if(!pw)return;
+  try{const u=auth.currentUser;await u.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(u.email,pw));const b=db.batch();b.delete(db.doc('users/'+me.uid));b.delete(db.doc('usernames/'+me.username));await b.commit();await u.delete();$('set').style.display='none'}catch(e){alert(E[e.code]||'Wrong password or error: '+e.message)}};
 $('at').onclick=()=>cur&&sheet([['🖼 Photo / Video',()=>{$('file').accept='image/*,video/*';$('file').click()}],['📄 Document (600KB tak)',()=>{$('file').accept='.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.zip';$('file').click()}],['📍 Location',sendLoc]]);
-function sendLoc(){navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>post({type:'loc',lat:+p.coords.latitude.toFixed(5),lng:+p.coords.longitude.toFixed(5)},'📍 Location').catch(e=>alert(e.message)),()=>alert('Location permission nahi mili')):alert('Location support nahi hai')}
-function timerM(){sheet([['1 ghanta',36e5],['24 ghante',864e5],['7 din',6048e5]].map(a=>['⏳ '+a[0],()=>db.doc('chats/'+cur.id).update({exp:a[1]}).then(()=>alert('Timer set: '+a[0])).catch(e=>alert(e.message))]))}
-function memM(u){const ad=(cur.admins||[]).includes(u),F=firebase.firestore.FieldValue;sheet([[ad?'Admin hatao':'👑 Admin banao',()=>db.doc('chats/'+cur.id).update({admins:ad?F.arrayRemove(u):F.arrayUnion(u)}).catch(e=>alert(e.message))],['🚫 Group se hatao',()=>db.doc('chats/'+cur.id).update({members:F.arrayRemove(u)}).catch(e=>alert(e.message))]])}
-function showStars(){const a=stars();sheet(a.length?a.map(z=>['⭐ '+z.c+' · '+z.n+': '+z.t]):[['Koi starred message nahi']])}
+function sendLoc(){navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>post({type:'loc',lat:+p.coords.latitude.toFixed(5),lng:+p.coords.longitude.toFixed(5)},'📍 Location').catch(e=>alert(e.message)),()=>alert('Location permission denied')):alert('Location is not supported')}
+function timerM(){sheet([['1 hour',36e5],['24 hours',864e5],['7 days',6048e5]].map(a=>['⏳ '+a[0],()=>db.doc('chats/'+cur.id).update({exp:a[1]}).then(()=>alert('Timer set: '+a[0])).catch(e=>alert(e.message))]))}
+function memM(u){const ad=(cur.admins||[]).includes(u),F=firebase.firestore.FieldValue;sheet([[ad?'Remove admin':'👑 Make admin',()=>db.doc('chats/'+cur.id).update({admins:ad?F.arrayRemove(u):F.arrayUnion(u)}).catch(e=>alert(e.message))],['🚫 Remove from group',()=>db.doc('chats/'+cur.id).update({members:F.arrayRemove(u)}).catch(e=>alert(e.message))]])}
+function showStars(){const a=stars();sheet(a.length?a.map(z=>['⭐ '+z.c+' · '+z.n+': '+z.t]):[['No starred messages']])}
 $('chips').onclick=e=>{const f=e.target.dataset.f;if(!f)return;fl=f;[...$('chips').children].forEach(x=>x.classList.toggle('on',x.dataset.f===f));renderList()};
-function sq(f){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const m=Math.min(im.width,im.height),cv=document.createElement('canvas');cv.width=cv.height=128;cv.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,128,128);res(cv.toDataURL('image/jpeg',.7))};im.onerror=()=>rej(Error('Photo padh nahi paye'));im.src=URL.createObjectURL(f)})}
+function sq(f){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const m=Math.min(im.width,im.height),cv=document.createElement('canvas');cv.width=cv.height=128;cv.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,128,128);res(cv.toDataURL('image/jpeg',.7))};im.onerror=()=>rej(Error('Couldn’t read the photo'));im.src=URL.createObjectURL(f)})}
 $('sav').onclick=()=>{pt='me';$('pf').click()};
 $('pf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{const p=await sq(f);if(pt==='g')await db.doc('chats/'+cur.id).update({photo:p});else{await db.doc('users/'+me.uid).set({photo:p},{merge:true});const b=db.batch();chats.forEach(c=>b.update(db.doc('chats/'+c.id),{['photos.'+me.uid]:p}));await b.commit();av($('sav'),me.name,false,p)}}catch(er){alert(er.message)}};
+function reportIt(uid,mid,txt){if(!confirm('Report this user / message?'))return;db.collection('reports').add({by:me.uid,against:uid,chat:cur?cur.id:null,msg:mid||null,text:(txt||'').slice(0,200),ts:SV()}).then(()=>alert('Report sent. Thank you.')).catch(e=>alert(e.message))}
 $('cam').onclick=()=>$('cf').click();
 $('cf').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
-  try{const d=await compress(f);if(!chats.length)return alert('Pehle koi chat banao');
-    sheet([['Photo kisko bhejni hai?']].concat(chats.map(c=>['→ '+title(c),async()=>{try{await db.collection('chats/'+c.id+'/messages').add({from:me.uid,fromName:me.name,ts:SV(),expireAt:ex(),type:'img',data:d});await db.doc('chats/'+c.id).update({last:'📷 Photo',lastTs:SV(),lastFrom:me.uid});st('Photo bhej di ✅');setTimeout(()=>st(''),1500)}catch(er){alert(er.message)}}])))}catch(er){alert(er.message)}};
+  try{const d=await compress(f);if(!chats.length)return alert('Create a chat first');
+    sheet([['Send photo to…']].concat(chats.map(c=>['→ '+title(c),async()=>{try{await db.collection('chats/'+c.id+'/messages').add({from:me.uid,fromName:me.name,ts:SV(),expireAt:ex(),type:'img',data:d});await db.doc('chats/'+c.id).update({last:'📷 Photo',lastTs:SV(),lastFrom:me.uid});st('Photo sent ✅');setTimeout(()=>st(''),1500)}catch(er){alert(er.message)}}])))}catch(er){alert(er.message)}};
 const AP=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.App;
 if(AP)AP.addListener('backButton',()=>{if($('sheet').style.display==='flex')$('sheet').style.display='none';else if($('vw').style.display==='flex')$('vw').style.display='none';else if($('set').style.display==='flex')$('sx').onclick();else if($('app').classList.contains('open'))$('back').onclick();else AP.exitApp()});
 }
