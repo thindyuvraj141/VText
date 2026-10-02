@@ -141,6 +141,9 @@ function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';cle
 function ask(title,def,noInput,pwd){return new Promise(res=>{const d=$('dlg'),i=$('di');$('dt').textContent=title;i.style.display=noInput?'none':'block';i.type=pwd?'password':'text';i.value=def||'';d.style.display='flex';if(!noInput)setTimeout(()=>i.focus(),60);const done=v=>{d.style.display='none';$('dk').onclick=$('dc').onclick=null;res(v)};$('dk').onclick=()=>done(noInput?true:i.value);$('dc').onclick=()=>done(noInput?false:null)})}
 const confirmD=t=>ask(t,'',true);
 document.addEventListener('contextmenu',e=>{if(!e.target.closest('.m,input'))e.preventDefault()});
+(function(){const K='vt_ver';async function chk(){try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const v=(await r.json()).v;if(!v)return;const o=localStorage.getItem(K);if(!o){localStorage.setItem(K,v);return}if(o!==v){localStorage.setItem(K,v);sessionStorage.setItem('vt_upd','1');location.replace(location.pathname+'?v='+v.slice(0,8))}}catch(e){}}
+chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
+if(sessionStorage.getItem('vt_upd')){sessionStorage.removeItem('vt_upd');setTimeout(()=>toast('App updated ✅'),900)}})();
 const SUPPORT_EMAIL='YOUR_EMAIL@example.com';
 const mail=SUPPORT_EMAIL.includes('YOUR_')?'':'<p>Contact: <b>'+SUPPORT_EMAIL+'</b></p>';
 const DOCS={
