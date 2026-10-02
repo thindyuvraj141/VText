@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
+<script>try{if(localStorage.getItem("vt_in")==="1")document.documentElement.className="boot"}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#6d28d9">
 <title>VText</title>
@@ -72,7 +73,10 @@ button:active,.u:active,.rw:active,.sr:active,.row:active{opacity:.65}
 #toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:10px 18px;border-radius:22px;z-index:60;display:none;max-width:85%;text-align:center}
 #pv{position:fixed;inset:0;background:var(--panel);z-index:25;display:none;flex-direction:column}.top.w #pvt{font-size:1.3rem;color:var(--txt)}
 #doc{position:fixed;inset:0;background:var(--panel);z-index:28;display:none;flex-direction:column}.top.w #dct{font-size:1.3rem;color:var(--txt)}#dcb p,#dcb li{line-height:1.55}#dcb a{color:var(--acc)}
+#splash{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;flex-direction:column;align-items:center;justify-content:center;gap:18px}.boot #splash{display:flex}.boot #auth{display:none!important}#splash img{width:96px;border-radius:24px;box-shadow:0 6px 24px #0003}.sp{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+#dn{position:absolute;right:14px;bottom:80px;width:40px;height:40px;border-radius:50%;border:0;background:var(--panel);color:var(--txt);box-shadow:0 2px 8px #0003;display:none;align-items:center;justify-content:center;z-index:3;font-size:1.2rem;cursor:pointer}
 </style></head><body>
+<div id="splash"><img src="logo.svg" alt=""><div class="sp"></div></div>
 <div id="auth"><div class="card">
 <img src="logo.svg" alt="VText"><h1>VText</h1>
 <input id="name" placeholder="Your name" style="display:none">
@@ -87,17 +91,17 @@ button:active,.u:active,.rw:active,.sr:active,.row:active{opacity:.65}
 <div id="side"><div class="top w"><img src="logo.svg" alt="" style="width:34px;height:34px;border-radius:9px"><b class="g">VText</b><button class="ib" id="sb" style="display:none">🔍</button><button class="ib" id="cam"></button><button class="ib" id="mm">⋮</button><input id="cf" type="file" accept="image/*" capture="environment" hidden></div>
 <div id="sw2"><input id="search" placeholder="Search"></div><div id="chips"><span class="on" data-f="all">All</span><span data-f="un">Unread</span><span data-f="gr">Groups</span></div><div id="list"></div><button id="fab"></button><div id="nav"></div></div>
 <div id="chat"><div class="top"><button class="ib" id="back">←</button><div class="av" id="cav"></div><div class="g" id="hd" style="cursor:pointer"><b id="cname"></b><small id="cst"></small></div><button class="ib" id="cm">⋮</button></div>
-<div id="msgs"></div><div id="rp"></div><div id="emo"></div>
+<div id="msgs"></div><button id="dn">↓</button><div id="rp"></div><div id="emo"></div>
 <div id="bar"><div class="in"><button id="eb">😊</button><input id="txt" placeholder="Message" autocomplete="off"><button id="at" type="button">📎</button><input id="file" type="file" hidden></div><button class="rb" id="snd">🎤</button></div></div>
 </div>
 <div id="set"><div class="top w"><button class="ib" id="sx">←</button><b id="stt" style="flex:1">Settings</b><button class="ib" id="spe">✎</button></div>
 <div class="sc"><div id="sm"><div class="hero"><div class="av big" id="sav"></div><div id="sname"></div><div class="sub" id="su"></div></div><div id="rows"></div></div>
 <div class="ps" id="p-prof"><label>Name</label><input id="sn" maxlength="30"><label>About</label><input id="sa" maxlength="80" placeholder="About"><button class="btn" id="ss">Save</button></div>
 <div class="ps" id="p-acc"><button class="row" id="pw">Change password (email link)</button><button class="row red" id="da">Delete account</button><button class="row" data-doc="delete">How account deletion works</button></div>
-<div class="ps" id="p-priv"><label><input type="checkbox" id="hs">Hide last seen &amp; online</label><label><input type="checkbox" id="rr">Read receipts</label><button class="row" id="bk">Blocked accounts</button><label>Disappearing messages (default timer)</label><select id="ex"><option value="3600000">1 hour</option><option value="86400000">24 hours</option><option value="604800000">7 days</option></select></div>
+<div class="ps" id="p-priv"><label><input type="checkbox" id="hs">Hide last seen &amp; online</label><label><input type="checkbox" id="rr">Read receipts</label><label><input type="checkbox" id="pr">Private account (people must send a request to connect)</label><button class="row" id="bk">Blocked accounts</button><label>Disappearing messages (default timer)</label><select id="ex"><option value="3600000">1 hour</option><option value="86400000">24 hours</option><option value="604800000">7 days</option></select></div>
 <div class="ps" id="p-chats"><label>Wallpaper</label><select id="wp"><option value="">Default</option><option value="#e8f5e9">Green</option><option value="#e3f2fd">Blue</option><option value="#fff3e0">Orange</option><option value="#1a1a2e">Dark</option></select><label><input type="checkbox" id="en">Enter is send</label></div>
 <div class="ps" id="p-app"><label>App theme</label><select id="th"><option value="auto">System default</option><option value="light">Light</option><option value="dark">Dark</option></select><label>Theme colour</label><select id="tc"><option value="g">Green</option><option value="v">Violet</option><option value="b">Blue</option></select></div>
-<div class="ps" id="p-notif"><label><input type="checkbox" id="nt">Message notifications</label><label><input type="checkbox" id="sd">Message sounds</label></div>
+<div class="ps" id="p-notif"><label><input type="checkbox" id="nt">Message notifications</label><label><input type="checkbox" id="sd">Message sounds</label><button class="row" data-doc="bg">How to get notifications in the background</button></div>
 <div class="ps" id="p-acs"><label>Font size</label><select id="fs"><option value="14">Small</option><option value="16">Medium</option><option value="18">Large</option></select></div>
 <div class="ps" id="p-help"><p class="sub">VText · messages expire automatically.</p><button class="row" data-doc="privacy">Privacy Policy</button><button class="row" data-doc="terms">Terms &amp; community rules</button><button class="row" data-doc="delete">How to delete your account</button></div>
 </div><button id="lo" style="display:none"></button></div>
@@ -123,12 +127,13 @@ const get=(k,d)=>{try{return localStorage.getItem('vt_'+k)||d}catch(e){return d}
 const PAL={g:['#0b7a62','#0fa57f','#d6f5e3','#0b5d49'],v:['#6d28d9','#7c3aed','#e4d9ff','#4c2a85'],b:['#1565c0','#2196f3','#d6e8fb','#0d47a1']};
 function look(){const t=get('theme','auto'),d=t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches),p=PAL[get('tc','g')]||PAL.g,r=document.documentElement,y=r.style;r.classList.toggle('dk',d);y.fontSize=get('fs','16')+'px';y.setProperty('--top',d?'#1f2c34':p[0]);y.setProperty('--acc',p[1]);y.setProperty('--me',d?p[3]:p[2]);y.setProperty('--pill',d?p[3]:p[2]);$('msgs').style.backgroundColor=get('wp','')}look();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+let reqs=[],unsubR,unsubQ;
 let tab='chats',pt='me',fl='all',showArc=false,lsg='',qs='',first=true,signup=false,me=null,chats=[],cur=null,peer=null,docs=[],reply=null,unsubM,unsubC,unsubP,unsubS,rec=null,chunks=[],rt;const vids=new Map(),PART=700000,MAXV=3*1024*1024;
 const setMode=v=>{signup=v;['name','un'].forEach(i=>$(i).style.display=signup?'block':'none');$('tm').style.display=signup?'block':'none';$('go').textContent=signup?'Sign up':'Login';$('sw').textContent=signup?'Have an account? Log in':'Create new account'};
 $('sw').onclick=()=>{setMode(!signup);$('err').textContent=''};
 const st=t=>{$('st').textContent=t;$('st').style.display=t?'block':'none'};
-const hm=d=>d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),M=t=>t&&t.toMillis?t.toMillis():0;
-const day=d=>{const n=new Date(),y=new Date(Date.now()-864e5);return d.toDateString()===n.toDateString()?'Aaj':d.toDateString()===y.toDateString()?'Kal':d.toLocaleDateString()};
+const hm=d=>d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}),M=t=>t&&t.toMillis?t.toMillis():0;
+const day=d=>{const n=new Date(),y=new Date(Date.now()-864e5);return d.toDateString()===n.toDateString()?'Today':d.toDateString()===y.toDateString()?'Yesterday':d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})};
 const col=n=>'hsl('+(Math.abs([...n].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,7))%360)+',55%,42%)';
 const av=(el,n,g,p)=>{el.style.background=col(n);el.textContent=g?'👥':n[0].toUpperCase();if(p&&/^data:image\/[a-z]+;base64,[A-Za-z0-9+\/=]+$/.test(p)){el.style.background='center/cover url('+p+')';el.textContent=''}};
 function sheet(rows,cls){const s=$('sheet');s.className=cls||'';s.innerHTML='';const b=document.createElement('div');b.className='sb';rows.forEach(r=>{const d=document.createElement('div');if(Array.isArray(r[0])){d.style.cssText='display:flex;justify-content:space-around;font-size:1.7rem;padding:12px 8px';r[0].forEach(em=>{const sp=document.createElement('span');sp.textContent=em;sp.style.cursor='pointer';sp.onclick=()=>{s.style.display='none';r[1](em)};d.appendChild(sp)});b.appendChild(d);return}d.className='sr'+(r[1]?'':' ro');d.textContent=r[0];if(r[1])d.onclick=()=>{s.style.display='none';r[1]()};b.appendChild(d)});s.appendChild(b);s.style.display='flex';s.onclick=e=>{if(e.target===s)s.style.display='none'}}
@@ -144,12 +149,16 @@ document.addEventListener('contextmenu',e=>{if(!e.target.closest('.m,input'))e.p
 (function(){const K='vt_ver';async function chk(){try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const v=(await r.json()).v;if(!v)return;const o=localStorage.getItem(K);if(!o){localStorage.setItem(K,v);return}if(o!==v){localStorage.setItem(K,v);sessionStorage.setItem('vt_upd','1');location.replace(location.pathname+'?v='+v.slice(0,8))}}catch(e){}}
 chk();document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
 if(sessionStorage.getItem('vt_upd')){sessionStorage.removeItem('vt_upd');setTimeout(()=>toast('App updated ✅'),900)}})();
+const hideSplash=()=>document.documentElement.classList.remove('boot');setTimeout(hideSplash,9000);
+const APP_URL='https://thindyuvraj141.github.io/VText/';
+try{const _a=new URLSearchParams(location.search).get('add');if(_a)localStorage.setItem('vt_add',_a.toLowerCase().replace(/[^a-z0-9_]/g,''))}catch(e){}
 const SUPPORT_EMAIL='YOUR_EMAIL@example.com';
 const mail=SUPPORT_EMAIL.includes('YOUR_')?'':'<p>Contact: <b>'+SUPPORT_EMAIL+'</b></p>';
 const DOCS={
 privacy:['Privacy Policy','<p>Last updated: 1 October 2026.</p><h4>Data we collect</h4><ul><li>Account: email, password (handled by Firebase Authentication), name, username, optional photo and about text.</li><li>Messages: text, photos, videos, voice messages, documents and locations you send.</li><li>Activity: online / last seen, typing and read status. You can hide last seen and read receipts in Settings.</li><li>Reports you send about users or messages.</li></ul><p>Your name, username, email and photo are visible to people you chat with.</p><h4>Permissions</h4><p>Camera, microphone and location are used only when you tap the related button. Notifications are optional.</p><h4>How we use data</h4><p>Only to run the chat service. We do not sell data and we show no ads.</p><h4>Where data is stored</h4><p>Google Firebase (Authentication and Cloud Firestore).</p><h4>Retention</h4><p>Messages expire after the time you choose (default 24 hours) and are then hidden and removed. Profile data stays until you delete your account.</p><h4>Delete your account</h4><p>Settings &gt; Account &gt; Delete account. Messages you already sent may remain in other people’s chats until they expire.</p><h4>Children</h4><p>VText is not for children under 13.</p>'+mail],
 terms:['Terms & community rules','<p>By using VText you agree to these rules.</p><ul><li>No harassment, threats, hate speech or bullying.</li><li>No sexual content involving minors and no sexually explicit content.</li><li>No violence, illegal activity, scams, spam or impersonation.</li><li>Do not share other people’s private information.</li><li>You are responsible for what you send.</li></ul><p>You can block and report any user or message in the app. We may remove content or suspend accounts that break these rules.</p>'+mail],
-delete:['Delete your account','<h4>In the app</h4><p>Open Settings &gt; Account &gt; <b>Delete account</b> and enter your password.</p><h4>What is deleted</h4><p>Your login, profile (name, username, photo, about) and username are deleted. Messages you sent may remain in other people’s chats until they expire (default 24 hours).</p>'+(mail?'<h4>Need help?</h4>'+mail:'')]};
+delete:['Delete your account','<h4>In the app</h4><p>Open Settings &gt; Account &gt; <b>Delete account</b> and enter your password.</p><h4>What is deleted</h4><p>Your login, profile (name, username, photo, about) and username are deleted. Messages you sent may remain in other people’s chats until they expire (default 24 hours).</p>'+(mail?'<h4>Need help?</h4>'+mail:'')],
+bg:['Background notifications','<p>To receive message notifications while VText is in the background:</p><ul><li>Phone Settings &gt; Apps &gt; VText &gt; Notifications: allow all.</li><li>Phone Settings &gt; Apps &gt; VText &gt; Battery: choose Unrestricted (or Don’t optimise).</li><li>On Xiaomi, Oppo, Vivo, Realme and Samsung phones, also turn on Auto-start and lock VText in the recent apps list.</li><li>Do not force-stop the app.</li></ul><p>Note: if you swipe the app away or the phone is in deep sleep, Android may pause VText and delivery can be delayed until you open it again.</p>']};
 function openDoc(k){const d=DOCS[k];if(!d)return;$('dct').textContent=d[0];$('dcb').innerHTML=d[1];$('doc').style.display='flex'}
 $('dcx').onclick=()=>$('doc').style.display='none';
 document.addEventListener('click',e=>{const a=e.target.closest('[data-doc]');if(a){e.preventDefault();openDoc(a.dataset.doc)}});
@@ -163,6 +172,7 @@ else{
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth=firebase.auth(),db=firebase.firestore(),TS=firebase.firestore.Timestamp,SV=()=>firebase.firestore.FieldValue.serverTimestamp(),ex=()=>TS.fromMillis(Date.now()+ +((cur&&cur.exp)||get('exp','86400000')));
 try{db.settings({experimentalAutoDetectLongPolling:true})}catch(e){}
+try{if(db.enablePersistence)db.enablePersistence({synchronizeTabs:true}).catch(()=>{})}catch(e){}
 const E={'auth/invalid-credential':'Wrong email or password','auth/email-already-in-use':'This email is already registered','auth/weak-password':'Password must be at least 6 characters','auth/invalid-email':'Invalid email address'};
 $('go').onclick=async()=>{
   const email=$('email').value.trim(),pass=$('pass').value,name=$('name').value.trim(),un=$('un').value.trim().toLowerCase();
@@ -181,10 +191,10 @@ $('go').onclick=async()=>{
 };
 $('fp').onclick=()=>{const em=$('email').value.trim();if(!em){$('err').textContent='Enter your email first';return}auth.sendPasswordResetEmail(em).then(()=>$('err').textContent='Reset email sent (check spam too)').catch(e=>$('err').textContent=E[e.code]||e.message)};
 const logout=()=>{manual=true;auth.signOut()};$('lo').onclick=()=>{$('set').style.display='none';logout()};
-function stop(){[unsubM,unsubC,unsubP,unsubS].forEach(f=>f&&f());unsubM=unsubC=unsubP=unsubS=null;cur=null;chats=[];vids.clear()}
+function stop(){[unsubM,unsubC,unsubP,unsubS,unsubR,unsubQ].forEach(f=>f&&f());unsubM=unsubC=unsubP=unsubS=unsubR=unsubQ=null;reqs=[];cur=null;chats=[];vids.clear()}
 const beat=()=>me&&!me.hideSeen&&db.doc('users/'+me.uid).set({seen:SV()},{merge:true}).catch(()=>{});setInterval(beat,6e4);
 let lo,manual=false;
-const goLogin=()=>{stop();me=null;setMode(false);$('pass').value='';$('app').style.display='none';$('auth').style.display='flex'};
+const goLogin=()=>{stop();me=null;setMode(false);$('pass').value='';$('app').style.display='none';$('auth').style.display='flex';put('in','0');hideSplash()};
 try{auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)}catch(e){}
 auth.onAuthStateChanged(u=>{
   clearTimeout(lo);
@@ -192,10 +202,29 @@ auth.onAuthStateChanged(u=>{
   if(!u&&me&&!manual){lo=setTimeout(()=>{if(!auth.currentUser)goLogin()},2000);return}
   manual=false;stop();me=null;
   if(!u){goLogin();return}
-  let asked=false;setTimeout(()=>{if(!me&&auth.currentUser&&$('auth').style.display!=='none')$('err').textContent='Couldn’t load your profile. Check your internet and Firestore rules, then log in again.'},10000);
+  let asked=false;setTimeout(()=>{if(!me&&auth.currentUser)hideSplash();if(!me&&auth.currentUser&&$('auth').style.display!=='none')$('err').textContent='Couldn’t load your profile. Check your internet and Firestore rules, then log in again.'},10000);
   unsubP=db.doc('users/'+u.uid).onSnapshot(s=>{if(!s.exists){if(!asked){asked=true;mkProfile(u)}return}const f=!me;me={uid:u.uid,...s.data()};if(f)start()});
 });
-async function mkProfile(u){const name=((await ask('Welcome! Enter your name'))||'').trim(),un=clean((await ask('Choose a username (a-z, 0-9, _)'))||'');
+const hasDm=u=>chats.some(c=>c.type==='dm'&&c.members.includes(u));
+async function sendReq(o){const r=db.doc('requests/'+me.uid+'_'+o.uid),x=await r.get();if(x.exists){if(x.data().status==='pending')return toast('Request already sent to @'+o.username);await r.delete()}
+  await r.set({from:me.uid,to:o.uid,fromName:me.name,fromUsername:me.username,...(me.photo?{fromPhoto:me.photo}:{}),status:'pending',ts:SV()});toast('Friend request sent to @'+o.username)}
+function startReqs(){let f1=true,f2=true;
+  unsubR=db.collection('requests').where('to','==',me.uid).onSnapshot(q=>{reqs=q.docs.map(d=>({id:d.id,...d.data()})).filter(r=>r.status==='pending');
+    if(!f1)q.docChanges().forEach(ch=>{const r=ch.doc.data();if(ch.type==='added'&&r.status==='pending'){const m=r.fromName+' (@'+r.fromUsername+') wants to connect';if(!active||document.hidden)pushNote('Friend request',m);else{toast('Friend request from '+r.fromName);beep()}}});
+    f1=false;renderList();if($('pv').style.display==='flex'&&$('pvt').textContent==='Friend requests')showReqs()},()=>{});
+  unsubQ=db.collection('requests').where('from','==',me.uid).onSnapshot(q=>{q.docChanges().forEach(ch=>{if(ch.type==='removed')return;const r=ch.doc.data();if(r.status==='pending')return;
+      const msg=r.status==='accepted'?'Your friend request was accepted 🎉':'Your friend request was declined';toast(msg);if(r.status==='accepted'){if(!active||document.hidden)pushNote('VText',msg);else beep()}db.doc('requests/'+ch.doc.id).delete().catch(()=>{})});f2=false},()=>{})}
+function showReqs(){$('pv').querySelector('.hero').style.display='none';$('pvt').textContent='Friend requests';const b=$('pvr');b.innerHTML='';
+  if(!reqs.length)b.innerHTML='<div class="empty" style="padding:40px 0">No pending requests</div>';
+  reqs.forEach(r=>{const d=document.createElement('div');d.className='rw';const a=document.createElement('div');a.className='av';av(a,r.fromName||'U',false,r.fromPhoto);const t=document.createElement('div');t.style.flex='1';t.textContent=r.fromName;const sm=document.createElement('small');sm.textContent='@'+r.fromUsername;t.appendChild(sm);
+    const ok=document.createElement('button'),no=document.createElement('button');ok.className=no.className='btn';ok.style.cssText='width:auto;margin:0 6px 0 0;padding:8px 14px';no.style.cssText='width:auto;margin:0;padding:8px 14px;background:#64748b';ok.textContent='Accept';no.textContent='Decline';ok.onclick=()=>acceptReq(r);no.onclick=()=>declineReq(r);d.append(a,t,ok,no);b.appendChild(d)});$('pv').style.display='flex'}
+async function acceptReq(r){try{const id=[me.uid,r.from].sort().join('_');if(!chats.find(c=>c.id===id))await db.doc('chats/'+id).set({type:'dm',members:[me.uid,r.from],names:{[me.uid]:me.name,[r.from]:r.fromName},photos:{...(me.photo?{[me.uid]:me.photo}:{}),...(r.fromPhoto?{[r.from]:r.fromPhoto}:{})},unames:{[me.uid]:me.username,[r.from]:r.fromUsername},emails:{[me.uid]:auth.currentUser.email}});
+  await db.doc('requests/'+r.id).update({status:'accepted'});toast('You are now connected with '+r.fromName)}catch(e){toast(e.message)}}
+async function declineReq(r){try{await db.doc('requests/'+r.id).update({status:'declined'});toast('Request declined')}catch(e){toast(e.message)}}
+async function shareLink(){const u=APP_URL+'?add='+encodeURIComponent(me.username),t='Chat with me on VText! My username: @'+me.username,SH=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Share;
+  try{if(SH)await SH.share({title:'VText',text:t,url:u,dialogTitle:'Invite a friend'});else if(navigator.share)await navigator.share({title:'VText',text:t,url:u});else throw 0}
+  catch(e){if(e&&/cancel/i.test(e.message||''))return;try{await navigator.clipboard.writeText(t+' '+u);toast('Link copied')}catch(x){toast(u)}}}
+async function mkProfile(u){hideSplash();const name=((await ask('Welcome! Enter your name'))||'').trim(),un=clean((await ask('Choose a username (a-z, 0-9, _)'))||'');
   const bad=m=>{$('err').textContent=m;manual=true;auth.signOut()};
   if(!name||!/^[a-z0-9_]{3,20}$/.test(un))return bad('A name and a valid username are required. Please log in again.');
   try{const b=db.batch();b.set(db.doc('usernames/'+un),{uid:u.uid});b.set(db.doc('users/'+u.uid),{name,username:un});await b.commit()}catch(e){bad('That username is taken. Log in again and choose another.')}}
@@ -204,7 +233,7 @@ async function setupNotif(){if(LN){try{const p=await LN.checkPermissions();if(p.
 function pushNote(t,b){if(get('notif','1')!=='1')return;if(LN)LN.schedule({notifications:[{id:(nid++)%2000000,title:t,body:b||'New message',channelId:'messages',sound:'vtext_msg.wav'}]}).catch(()=>{});else if(window.Notification&&Notification.permission==='granted')new Notification(t,{body:b,icon:'logo.svg'})}
 const title=c=>c.type==='group'?c.name:(c.names[c.members.find(x=>x!==me.uid)]||'User'),cp=c=>c.type==='group'?c.photo:(c.photos||{})[c.members.find(x=>x!==me.uid)];
 function start(){
-  setMode(false);$('pass').value='';$('err').textContent='';$('auth').style.display='none';$('app').style.display='flex';$('app').classList.remove('open');beat();setupNotif();
+  setMode(false);$('pass').value='';$('err').textContent='';$('auth').style.display='none';$('app').style.display='flex';$('app').classList.remove('open');beat();setupNotif();put('in','1');hideSplash();startReqs();const pa=localStorage.getItem('vt_add');if(pa){localStorage.removeItem('vt_add');setTimeout(()=>addC(pa),1500)}
   const ln={};unsubC=db.collection('chats').where('members','array-contains',me.uid).onSnapshot(q=>{
     q.docs.forEach(d=>{const c=d.data();if(!(c.emails&&c.emails[me.uid]))db.doc('chats/'+d.id).update({['emails.'+me.uid]:auth.currentUser.email,['unames.'+me.uid]:me.username}).catch(()=>{})});
     q.docChanges().forEach(ch=>{const c=ch.doc.data(),id=ch.doc.id,t=M(c.lastTs);
@@ -219,22 +248,23 @@ function start(){
 function renderList(){
   const q=$('search').value.trim().toLowerCase(),l=$('list');l.innerHTML='';if(tab!=='chats'){l.innerHTML='<div class="empty">'+({upd:'Updates (Status)',com:'Communities',calls:'Voice / video calls'}[tab])+' – not available in VText yet.</div>';return}
   const pn=lset('pin'),mu=lset('mut');const f=chats.filter(c=>title(c).toLowerCase().includes(q)&&lset('arc').has(c.id)===showArc&&(fl==='all'||(fl==='gr'?c.type==='group':c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid])))).sort((a,b)=>(pn.has(b.id)-pn.has(a.id))||M(b.lastTs)-M(a.lastTs));
-  if(!f.length){l.innerHTML='<div class="empty">No chats yet.<br>Tap 💬 to add a friend by username or create a group.</div>';return}
+  const bn=()=>{if(!reqs.length||showArc)return;const d=document.createElement('div');d.className='u';d.style.background='var(--pill)';const a=document.createElement('div');a.className='av';a.style.background='var(--acc)';a.innerHTML=ic('com');const t=document.createElement('div');t.className='t';t.innerHTML='<b>Friend requests</b><div></div>';t.lastChild.textContent=reqs.length+' pending';d.append(a,t);d.onclick=showReqs;l.appendChild(d)};
+  if(!f.length){l.innerHTML='<div class="empty">No chats yet.<br>Tap 💬 to add a friend by username or create a group.</div>';bn();return}bn();
   f.forEach(c=>{const d=document.createElement('div');d.className='u';
     const a=document.createElement('div');a.className='av';av(a,title(c),c.type==='group',cp(c));
     const t=document.createElement('div');t.className='t';const n=document.createElement('b');n.textContent=(pn.has(c.id)?'📌 ':'')+title(c)+(mu.has(c.id)?' 🔇':'');const p=document.createElement('div');p.textContent=(c.lastFrom===me.uid?'✓ ':'')+(c.last||'New chat');t.append(n,p);
     const r=document.createElement('div');r.className='r';r.textContent=c.lastTs?hm(c.lastTs.toDate()):'';
     const un=c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid])&&!(cur&&cur.id===c.id);
-    if(un){const o=document.createElement('div');o.className='dot';r.appendChild(o);n.style.fontWeight='800'}
+    if(un){const o=document.createElement('div');o.className='dot';r.appendChild(o);n.style.fontWeight='800';r.style.color='var(--acc)';r.style.fontWeight='700'}
     d.append(a,t,r);d.onclick=()=>openChat(c);l.appendChild(d)});
 }
 $('search').oninput=renderList;$('sb').onclick=()=>{const s=$('search');s.style.display=s.style.display==='block'?'none':'block';if(s.style.display==='block')s.focus();else{s.value='';renderList()}};
 const clean=x=>x.trim().toLowerCase().replace(/^@/,'');
-async function find(un){const u=await db.doc('usernames/'+un).get();if(!u.exists)throw Error('@'+un+' not found');const uid=u.data().uid;const o=(await db.doc('users/'+uid).get()).data();return{uid,name:o.name,photo:o.photo,username:o.username}}
-async function addC(){
-  const un=clean((await ask('Enter your friend’s username'))||'');if(!un)return;
+async function find(un){const u=await db.doc('usernames/'+un).get();if(!u.exists)throw Error('@'+un+' not found');const uid=u.data().uid;const o=(await db.doc('users/'+uid).get()).data();return{uid,name:o.name,photo:o.photo,username:o.username,private:!!o.private}}
+async function addC(pre){
+  const un=typeof pre==='string'?clean(pre):clean((await ask('Enter your friend’s username'))||'');if(!un)return;
   try{const o=await find(un);if(o.uid===me.uid)return toast('That’s your own username');
-    const id=[me.uid,o.uid].sort().join('_'),ex2=chats.find(c=>c.id===id);if(ex2)return openChat(ex2);
+    const id=[me.uid,o.uid].sort().join('_'),ex2=chats.find(c=>c.id===id);if(ex2)return openChat(ex2);if(o.private)return sendReq(o);
     const c={type:'dm',members:[me.uid,o.uid],names:{[me.uid]:me.name,[o.uid]:o.name},photos:{...(me.photo?{[me.uid]:me.photo}:{}),...(o.photo?{[o.uid]:o.photo}:{})},unames:{[me.uid]:me.username,[o.uid]:o.username},emails:{[me.uid]:auth.currentUser.email}};await db.doc('chats/'+id).set(c);openChat({id,...c});
   }catch(e){toast(e.message)}
 }
@@ -242,7 +272,7 @@ async function newG(){
   const name=((await ask('Group name'))||'').trim();if(!name)return;
   const list=((await ask('Member usernames, separated by commas (not yours)'))||'').split(',').map(clean).filter(Boolean);
   try{const members=[me.uid],names={[me.uid]:me.name},unames={[me.uid]:me.username};
-    for(const un of new Set(list)){const o=await find(un);if(!members.includes(o.uid)){members.push(o.uid);names[o.uid]=o.name;unames[o.uid]=o.username}}
+    for(const un of new Set(list)){const o=await find(un);if(o.private&&!hasDm(o.uid))return toast('@'+un+' is private. Send a friend request first.');if(!members.includes(o.uid)){members.push(o.uid);names[o.uid]=o.name;unames[o.uid]=o.username}}
     if(members.length<2)return toast('Add at least 1 member');
     const ref=db.collection('chats').doc(),c={type:'group',name:name.slice(0,40),members,names,admins:[me.uid],unames,emails:{[me.uid]:auth.currentUser.email}};await ref.set(c);openChat({id:ref.id,...c});
   }catch(e){toast(e.message)}
@@ -252,7 +282,7 @@ $('mm').onclick=()=>sheet([['New group',newG],['Starred messages',showStars],['R
 function readAll(){chats.forEach(c=>{if(c.lastFrom&&c.lastFrom!==me.uid&&M(c.lastTs)>M(c.seen&&c.seen[me.uid]))db.doc('chats/'+c.id).update({['seen.'+me.uid]:SV()}).catch(()=>{})})}
 const col2=()=>db.collection('chats/'+cur.id+'/messages');
 function stat(){if(!cur)return;let t='';const tp=Object.entries(cur.typing||{}).filter(a=>a[0]!==me.uid&&Date.now()-M(a[1])<6000).map(a=>cur.names[a[0]]||'');
-  if(tp.length)t=cur.type==='group'?tp.join(', ')+' typing…':'typing…';else if(cur.type==='group')t=Object.values(cur.names).join(', ');else if(peer&&peer.seen&&!peer.hideSeen){const d=peer.seen.toDate();t=Date.now()-d<1e5?'online':'last seen '+day(d)+' '+hm(d)}$('cst').textContent=t}
+  if(tp.length)t=cur.type==='group'?tp.join(', ')+' typing…':'typing…';else if(cur.type==='group')t=Object.values(cur.names).join(', ');else if(peer&&peer.seen&&!peer.hideSeen){const d=peer.seen.toDate();t=Date.now()-d<1e5?'online':'last seen '+(day(d)==='Today'?'today':day(d)==='Yesterday'?'yesterday':day(d))+' at '+hm(d)}$('cst').textContent=t}
 setInterval(()=>cur&&stat(),3000);
 function openChat(c){
   cur=c;peer=null;qs='';lsg='';first=true;reply=null;rp();unsubM&&unsubM();unsubS&&unsubS();docs=[];
@@ -305,12 +335,12 @@ async function loadVid(id,m,b){
 $('back').onclick=()=>{$('app').classList.remove('open');unsubM&&unsubM();unsubS&&unsubS();unsubM=unsubS=null;cur=null;renderList()};
 $('hd').onclick=()=>{if(!cur)return;if(cur.type==='group')groupInfo();else showProfile(cur.members.find(x=>x!==me.uid))};
 const pvRows=a=>{const b=$('pvr');b.innerHTML='';a.forEach(r=>{const d=document.createElement('div');d.className='rw';const i=document.createElement('div');i.textContent=r[1];const sm=document.createElement('small');sm.textContent=r[0];i.appendChild(sm);d.appendChild(i);if(r[2]){d.style.cursor='pointer';d.onclick=r[2]}if(r[3])i.style.color='#e11d48';b.appendChild(d)})};
-async function showProfile(uid){const c=cur,nm=c.names[uid]||'User',un=()=>(c.unames||{})[uid],em=()=>(c.emails||{})[uid]||'—';$('pvt').textContent='Contact info';av($('pva'),nm,false,(c.photos||{})[uid]);$('pvn').textContent=nm;
+async function showProfile(uid){$('pv').querySelector('.hero').style.display='';const c=cur,nm=c.names[uid]||'User',un=()=>(c.unames||{})[uid],em=()=>(c.emails||{})[uid]||'—';$('pvt').textContent='Contact info';av($('pva'),nm,false,(c.photos||{})[uid]);$('pvn').textContent=nm;
   let rows=[['Username','@'+(un()||'—')],['Email',em()],['About','—']];pvRows(rows);$('pv').style.display='flex';
   try{const u=(await db.doc('users/'+uid).get()).data()||{};rows=[['Username','@'+(u.username||un()||'—')],['Email',em()],['About',u.about||'—']];if(u.photo)av($('pva'),nm,false,u.photo);if(u.name)$('pvn').textContent=u.name}catch(e){}
   if(uid!==me.uid&&c.type==='dm'){const bl=lset('blk').has(uid);rows.push([bl?'Unblock':'Block','Tap to '+(bl?'unblock':'block')+' this contact',()=>{tog('blk',uid);showProfile(uid);renderM()},1],['Report','Report this user',()=>reportIt(uid),1])}
   pvRows(rows)}
-function groupInfo(){const c=cur;av($('pva'),c.name,true,c.photo);$('pvn').textContent=c.name;$('pvt').textContent='Group info';
+function groupInfo(){$('pv').querySelector('.hero').style.display='';const c=cur;av($('pva'),c.name,true,c.photo);$('pvn').textContent=c.name;$('pvt').textContent='Group info';
   pvRows(c.members.map(u=>['@'+((c.unames||{})[u]||'—'),(c.names[u]||'User')+((c.admins||[]).includes(u)?' (admin)':'')+(u===me.uid?' (you)':''),()=>{if((c.admins||[]).includes(me.uid)&&u!==me.uid)memM(u);else showProfile(u)}]));$('pv').style.display='flex'}
 $('pvx').onclick=()=>$('pv').style.display='none';
 $('cm').onclick=()=>{if(!cur)return;const id=cur.id,g=cur.type==='group',ad=g&&(cur.admins||[]).includes(me.uid),o=g?null:cur.members.find(x=>x!==me.uid);
@@ -318,7 +348,7 @@ $('cm').onclick=()=>{if(!cur)return;const id=cur.id,g=cur.type==='group',ad=g&&(
   ['More…',()=>{const m=[['Clear chat',()=>{put('clr_'+id,Date.now());renderM()}]];if(g){if(ad)m.push(['Add participants',addM],['Change group name',renG],['Change group photo',()=>{pt='g';$('pf').click()}]);m.push(['Exit group',leaveG])}else m.push([lset('blk').has(o)?'Unblock':'Block',()=>{tog('blk',o);renderM()}],['Report',()=>reportIt(o)]);sheet(m,'pop')}]];
   if(qs)r.unshift(['Clear search',()=>{qs='';renderM()}]);sheet(r,'pop')};
 async function renG(){const n=((await ask('New group name',cur.name))||'').trim();if(n)db.doc('chats/'+cur.id).update({name:n.slice(0,40)}).catch(e=>toast(e.message))}
-async function addM(){const un=clean((await ask('New member’s username'))||'');if(!un)return;try{const o=await find(un);if(cur.members.includes(o.uid))return toast('Already in the group');await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayUnion(o.uid),['names.'+o.uid]:o.name});toast(o.name+' added ✅')}catch(e){toast(e.message)}}
+async function addM(){const un=clean((await ask('New member’s username'))||'');if(!un)return;try{const o=await find(un);if(o.private&&!hasDm(o.uid))return toast('@'+un+' is private. Send a friend request first.');if(cur.members.includes(o.uid))return toast('Already in the group');await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayUnion(o.uid),['names.'+o.uid]:o.name});toast(o.name+' added ✅')}catch(e){toast(e.message)}}
 async function leaveG(){if(!(await confirmD('Exit this group?')))return;try{await db.doc('chats/'+cur.id).update({members:firebase.firestore.FieldValue.arrayRemove(me.uid)});$('back').onclick()}catch(e){toast(e.message)}}
 function fwd(x){const r=chats.filter(c=>c.id!==cur.id).map(c=>['→ '+title(c),async()=>{try{const b={from:me.uid,fromName:me.name,ts:SV(),expireAt:ex(),type:x.type,fwd:true};if(x.text)b.text=x.text;if(x.data)b.data=x.data;if(x.fname)b.fname=x.fname;if(x.size)b.size=x.size;if(x.lat!=null){b.lat=x.lat;b.lng=x.lng}await db.collection('chats/'+c.id+'/messages').add(b);await db.doc('chats/'+c.id).update({last:prev(x),lastTs:SV(),lastFrom:me.uid});st('Forwarded ✅');setTimeout(()=>st(''),1500)}catch(e){toast(e.message)}}]);sheet(r.length?r:[['No other chats']])}
 async function post(x,p,ref){const c=cur;ref=ref||col2().doc();const b={from:me.uid,fromName:me.name,ts:SV(),expireAt:x.exp||ex(),...x};delete b.exp;if(reply)b.reply=reply;reply=null;rp();await ref.set(b);db.doc('chats/'+c.id).update({last:p,lastTs:SV(),lastFrom:me.uid}).catch(()=>{})}
@@ -361,14 +391,14 @@ $('file').onchange=async e=>{
   st('');
 };
 function openSet(){$('sn').value=me.name;$('sa').value=me.about||'';$('su').textContent='@'+me.username;av($('sav'),me.name,false,me.photo);
-  $('th').value=get('theme','auto');$('fs').value=get('fs','16');$('ex').value=get('exp','86400000');$('en').checked=get('enter','1')==='1';$('nt').checked=get('notif','1')==='1';$('wp').value=get('wp','');$('tc').value=get('tc','g');$('sd').checked=get('snd','1')==='1';$('rr').checked=get('rr','1')==='1';$('hs').checked=!!me.hideSeen;$('sname').textContent=me.name;closeP();
-  $('rows').innerHTML=[['acc','key','Account','Password, delete account'],['priv','lock','Privacy','Last seen, blocked accounts, disappearing messages'],['chats','chat','Chats','Wallpaper, enter key'],['app','palette','Appearance','Chat theme, app theme'],['notif','bell','Notifications','Message tones'],['acs','access','Accessibility','Font size'],['pp','lock','Privacy policy','How your data is used'],['tc','help','Terms & community rules','Rules for using VText'],['help','help','Help and feedback','About VText'],['inv','com','Invite a friend','Share VText link'],['out','out','Log out','']].map(a=>'<div class="rw" data-p="'+a[0]+'" data-t="'+a[2]+'">'+ic(a[1])+'<div>'+a[2]+(a[3]?'<small>'+a[3]+'</small>':'')+'</div></div>').join('');
+  $('th').value=get('theme','auto');$('fs').value=get('fs','16');$('ex').value=get('exp','86400000');$('en').checked=get('enter','1')==='1';$('nt').checked=get('notif','1')==='1';$('wp').value=get('wp','');$('tc').value=get('tc','g');$('sd').checked=get('snd','1')==='1';$('rr').checked=get('rr','1')==='1';$('hs').checked=!!me.hideSeen;$('pr').checked=!!me.private;$('sname').textContent=me.name;closeP();
+  $('rows').innerHTML=[['acc','key','Account','Password, delete account'],['priv','lock','Privacy','Last seen, blocked accounts, disappearing messages'],['chats','chat','Chats','Wallpaper, enter key'],['app','palette','Appearance','Chat theme, app theme'],['notif','bell','Notifications','Message tones'],['acs','access','Accessibility','Font size'],['pp','lock','Privacy policy','How your data is used'],['tc','help','Terms & community rules','Rules for using VText'],['help','help','Help and feedback','About VText'],['inv','com','Invite a friend','Share your VText link'],['out','out','Log out','']].map(a=>'<div class="rw" data-p="'+a[0]+'" data-t="'+a[2]+'">'+ic(a[1])+'<div>'+a[2]+(a[3]?'<small>'+a[3]+'</small>':'')+'</div></div>').join('');
   $('set').style.display='flex'}
 let cp2=null;
 function openP(p,t){cp2=p;$('sm').style.display='none';document.querySelectorAll('.ps').forEach(x=>x.style.display=x.id==='p-'+p?'block':'none');$('stt').textContent=t}
 function closeP(){cp2=null;$('sm').style.display='block';document.querySelectorAll('.ps').forEach(x=>x.style.display='none');$('stt').textContent='Settings'}
 $('sx').onclick=()=>{if(cp2)closeP();else $('set').style.display='none'};$('spe').onclick=()=>openP('prof','Edit profile');
-$('rows').onclick=async e=>{const r=e.target.closest('[data-p]');if(!r)return;const p=r.dataset.p;if(p==='pp'||p==='tc'){openDoc(p==='pp'?'privacy':'terms');return}if(p==='inv'){const u=location.origin+location.pathname;return navigator.share?navigator.share({title:'VText',text:'Chat with me on VText',url:u}).catch(()=>{}):toast(u)}if(p==='out'){if(await confirmD('Log out of VText?')){$('set').style.display='none';logout()}return}openP(p,r.dataset.t)};
+$('rows').onclick=async e=>{const r=e.target.closest('[data-p]');if(!r)return;const p=r.dataset.p;if(p==='pp'||p==='tc'){openDoc(p==='pp'?'privacy':'terms');return}if(p==='inv'){shareLink();return}if(p==='out'){if(await confirmD('Log out of VText?')){$('set').style.display='none';logout()}return}openP(p,r.dataset.t)};
 $('th').onchange=e=>{put('theme',e.target.value);look()};$('fs').onchange=e=>{put('fs',e.target.value);look()};
 $('ex').onchange=e=>put('exp',e.target.value);$('en').onchange=e=>put('enter',e.target.checked?'1':'0');
 $('nt').onchange=e=>{if(!e.target.checked){put('notif','0');return}put('notif','1');setupNotif()};
@@ -377,6 +407,8 @@ $('ss').onclick=async()=>{const name=$('sn').value.trim();if(!name)return toast(
     const b=db.batch();chats.forEach(c=>b.update(db.doc('chats/'+c.id),{['names.'+me.uid]:name}));await b.commit();toast('Profile saved ✅')}catch(e){toast(e.message)}};
 $('tc').onchange=e=>{put('tc',e.target.value);look()};
 $('nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.n;[...$('nav').children].forEach(x=>x.classList.toggle('on',x===b));$('fab').style.display=$('sw2').style.display=tab==='chats'?'':'none';renderList()};
+$('pr').onchange=e=>db.doc('users/'+me.uid).set({private:e.target.checked},{merge:true}).then(()=>toast(e.target.checked?'Your account is now private':'Your account is now public')).catch(x=>toast(x.message));
+$('msgs').onscroll=()=>{const b=$('msgs');$('dn').style.display=b.scrollHeight-b.scrollTop-b.clientHeight>150?'flex':'none'};$('dn').onclick=()=>$('msgs').scrollTo({top:$('msgs').scrollHeight,behavior:'smooth'});
 $('wp').onchange=e=>{put('wp',e.target.value);look()};$('sd').onchange=e=>put('snd',e.target.checked?'1':'0');$('rr').onchange=e=>put('rr',e.target.checked?'1':'0');
 $('hs').onchange=e=>db.doc('users/'+me.uid).set({hideSeen:e.target.checked},{merge:true});
 $('pw').onclick=()=>auth.sendPasswordResetEmail(auth.currentUser.email).then(()=>toast('Reset email sent')).catch(e=>toast(e.message));
