@@ -28,7 +28,9 @@ jobs:
       - run: npm install
       - run: |
           mkdir -p www
-          cp index.html manifest.json sw.js logo.svg www/
+          cp index.html offline.html manifest.json sw.js logo.svg www/
+      - name: Bundle web files (no remote URL) for Play Store
+        run: node -e "const fs=require('fs'),c=JSON.parse(fs.readFileSync('capacitor.config.json'));delete c.server;fs.writeFileSync('capacitor.config.json',JSON.stringify(c,null,2))"
       - run: npx cap add android
       - run: python3 scripts/patch_android.py
         env:
