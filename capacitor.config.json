@@ -4,5 +4,9 @@
   "webDir": "www",
   "android": {
     "adjustMarginsForEdgeToEdge": "force"
+  },
+  "server": {
+    "url": "https://thindyuvraj141.github.io/VText/",
+    "errorPath": "offline.html"
   }
 }
