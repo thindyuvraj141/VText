@@ -65,3 +65,19 @@ os.makedirs(os.path.join(RES, 'values'), exist_ok=True)
 open(os.path.join(RES, 'values', 'ic_launcher_background.xml'), 'w').write(
     '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">#7C3AED</color>\n</resources>\n')
 print('launcher icons written')
+
+import wave, math
+os.makedirs(os.path.join(RES, 'raw'), exist_ok=True)
+SR = 22050
+buf = [0.0] * int(SR * 0.7)
+for f, start in ((880, 0.0), (1318, 0.14)):
+    for i in range(int(SR * 0.45)):
+        t = i / SR
+        env = min(1.0, t / 0.015) * math.exp(-7 * t)
+        j = int((start + t) * SR)
+        if j < len(buf):
+            buf[j] += 0.45 * env * math.sin(2 * math.pi * f * t)
+with wave.open(os.path.join(RES, 'raw', 'vtext_msg.wav'), 'wb') as w:
+    w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
+    w.writeframes(b''.join(int(max(-1, min(1, x)) * 32000).to_bytes(2, 'little', signed=True) for x in buf))
+print('notification sound written')
